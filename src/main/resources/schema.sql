@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS bilabonnement;
+
 USE bilabonnement;
 
 CREATE TABLE IF NOT EXISTS customer (
