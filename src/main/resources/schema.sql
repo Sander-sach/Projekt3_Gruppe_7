@@ -1,4 +1,6 @@
+CREATE DATABASE IF NOT EXISTS bilabonnement;
 
+USE bilabonnement;
 
 CREATE TABLE IF NOT EXISTS customer (
     customer_id BIGINT NOT NULL AUTO_INCREMENT,
