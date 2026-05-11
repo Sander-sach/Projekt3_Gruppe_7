@@ -50,13 +50,14 @@ CREATE TABLE IF NOT EXISTS rental_agreement (
     report_id BIGINT,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
+    monthly_price DECIMAL(10,2) NOT NULL,
     location ENUM('HQ', 'DS_DEALER') NOT NULL,
     subscription_type ENUM('LIMITED', 'UNLIMITED') NOT NULL,
     PRIMARY KEY (agreement_id),
     FOREIGN KEY (car_id) REFERENCES car(car_id),
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (report_id) REFERENCES damage_report(report_id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS car_registration (
     registration_id BIGINT NOT NULL AUTO_INCREMENT,
