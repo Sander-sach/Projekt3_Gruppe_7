@@ -1,8 +1,7 @@
 CREATE DATABASE IF NOT EXISTS bilabonnement;
-
 USE bilabonnement;
 
-CREATE TABLE IF NOT EXISTS customer (
+CREATE TABLE customer (
     customer_id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(250) NOT NULL,
     phone VARCHAR(250),
@@ -10,7 +9,7 @@ CREATE TABLE IF NOT EXISTS customer (
     PRIMARY KEY (customer_id)
 );
 
-CREATE TABLE IF NOT EXISTS employee (
+CREATE TABLE employee (
     employee_id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(250) NOT NULL,
     username VARCHAR(250) NOT NULL UNIQUE,
@@ -19,7 +18,7 @@ CREATE TABLE IF NOT EXISTS employee (
     PRIMARY KEY (employee_id)
 );
 
-CREATE TABLE IF NOT EXISTS car (
+CREATE TABLE car (
     car_id BIGINT NOT NULL AUTO_INCREMENT,
     stel_number VARCHAR(250) NOT NULL UNIQUE,
     model VARCHAR(250),
@@ -30,7 +29,7 @@ CREATE TABLE IF NOT EXISTS car (
     PRIMARY KEY (car_id)
 );
 
-CREATE TABLE IF NOT EXISTS damage_report (
+CREATE TABLE damage_report (
     report_id BIGINT NOT NULL AUTO_INCREMENT,
     car_id BIGINT NOT NULL,
     report_date DATE NOT NULL,
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS damage_report (
     FOREIGN KEY (car_id) REFERENCES car(car_id)
 );
 
-CREATE TABLE IF NOT EXISTS damage_item (
+CREATE TABLE damage_item (
     item_id BIGINT NOT NULL AUTO_INCREMENT,
     report_id BIGINT NOT NULL,
     description VARCHAR(250),
@@ -47,7 +46,7 @@ CREATE TABLE IF NOT EXISTS damage_item (
     FOREIGN KEY (report_id) REFERENCES damage_report(report_id)
 );
 
-CREATE TABLE IF NOT EXISTS rental_agreement (
+CREATE TABLE rental_agreement (
     agreement_id BIGINT NOT NULL AUTO_INCREMENT,
     car_id BIGINT NOT NULL,
     customer_id BIGINT NOT NULL,
@@ -62,7 +61,7 @@ CREATE TABLE IF NOT EXISTS rental_agreement (
     FOREIGN KEY (report_id) REFERENCES damage_report(report_id)
 );
 
-CREATE TABLE IF NOT EXISTS car_registration (
+CREATE TABLE car_registration (
     registration_id BIGINT NOT NULL AUTO_INCREMENT,
     agreement_id BIGINT NOT NULL,
     leasing_code VARCHAR(250),
