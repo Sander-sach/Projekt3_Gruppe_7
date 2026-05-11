@@ -18,10 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
-
 # Spring Boot local properties
 application-local.properties
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
