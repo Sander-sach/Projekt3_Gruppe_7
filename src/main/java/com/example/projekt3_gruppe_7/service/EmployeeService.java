@@ -38,23 +38,19 @@ public class EmployeeService {
         return true;
     }
 
-
-    public EmployeeRole hasAccess(Employee employee){
-        EmployeeRole role = null;
-
-        return role;
-    }
-
     public String hashPassword(String plainPassword){
+
         return passwordEncoder.encode(plainPassword);
     }
-    public boolean varifyPassword(String plainPassword, String hashedPassword){
+
+    public boolean verifyPassword(String plainPassword, String hashedPassword){
+
        return passwordEncoder.matches(plainPassword,hashedPassword);
     }
 
     public Employee login(String username, String plainPassword){
         Employee employee = employeeRepository.findByUsername(username);
-            if(employee != null && varifyPassword(plainPassword,employee.getPassword())){
+            if(employee != null && verifyPassword(plainPassword,employee.getPassword())){
                 return employee;
             }
             return null;

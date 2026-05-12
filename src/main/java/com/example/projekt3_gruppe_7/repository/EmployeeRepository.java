@@ -60,11 +60,11 @@ public class EmployeeRepository {
                     EmployeeRole role = EmployeeRole.valueOf(resultSet.getString("role"));
                     String password = (resultSet.getString("password"));
                     employee = new Employee(employeeId, name, role, username, password);
+                    return employee;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return employee;
         }
         return null;
     }

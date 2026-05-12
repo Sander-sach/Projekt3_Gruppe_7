@@ -3,6 +3,7 @@ package com.example.projekt3_gruppe_7.controller;
 import com.example.projekt3_gruppe_7.model.Employee;
 import com.example.projekt3_gruppe_7.model.EmployeeRole;
 import com.example.projekt3_gruppe_7.service.EmployeeService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +21,32 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    //mapping til login som homepage
     @GetMapping("/")
-    public String index(){
+    public String startPage(){
         return "login";
     }
 
     @GetMapping("/login")
     public String login() { return "login"; }
+
+    @PostMapping("/login")
+    public String loginSuccess(Model model, HttpSession session, @RequestParam String username, @RequestParam String password){
+        Employee employee = employeeService.login(username,password);
+        if(employee != null){
+            session.setAttribute("employee",employee);
+            EmployeeRole role = employee.getRole();
+
+            switch(role){
+                case DATA_REGISTRATION: return "redirect:/data-registration";
+                case DAMAGE_AND_REPAIR: return "redirect:/damage-registration";
+                case BUSINESS_DEVELOPER: return "redirect:/business-development";
+                case ADMIN: return "redirect:/admin-overview";
+            }
+        }
+        model.addAttribute("loginError",true);
+        return "login";
+    }
 
     @GetMapping("/register-user")
     public String registerUser(){
