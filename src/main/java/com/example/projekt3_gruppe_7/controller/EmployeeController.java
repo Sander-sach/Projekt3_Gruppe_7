@@ -21,9 +21,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/")
-    public String login(){
+    public String index(){
         return "login";
     }
+
+    @GetMapping("/login")
+    public String login() { return "login"; }
 
     @GetMapping("/register-user")
     public String registerUser(){
@@ -42,7 +45,7 @@ public class EmployeeController {
             return "redirect:/login?registered=true";
 
         }
-        //login error message
+        //registration error message
         model.addAttribute("registrationError", true);
 
         return "register-user";

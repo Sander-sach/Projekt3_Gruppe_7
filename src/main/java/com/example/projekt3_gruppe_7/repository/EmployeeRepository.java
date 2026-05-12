@@ -76,7 +76,7 @@ public class EmployeeRepository {
             statement.setString(1, employee.getName());
             statement.setString(2, employee.getUserName());
             statement.setString(3, employee.getPassword());
-            statement.setString(3, employee.getRole().name());
+            statement.setString(4, employee.getRole().name());
             statement.executeUpdate();
 
         }catch (SQLException e) {

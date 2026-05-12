@@ -23,7 +23,7 @@ public class EmployeeService {
         if(employeeRepository.checkUsernameExists(employee.getUserName())){
             return false;
         }
-        if (validatePasswordCharacters(employee.getPassword())) {
+        if (!validatePasswordCharacters(employee.getPassword())) {
             return false;
         }
         employee.setPassword(hashPassword(employee.getPassword()));
@@ -35,7 +35,7 @@ public class EmployeeService {
         if(!password.matches(".*[0-9].*") || password.length() < 8){
             return false;
         }
-        return false;
+        return true;
     }
 
 
