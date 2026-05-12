@@ -1,0 +1,148 @@
+/* ── Reset ── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Colors ── */
+:root {
+    --navy:   #1a2140;
+    --purple: #7b3f9e;
+    --white:  #ffffff;
+    --gray:   #f1f3f7;
+    --border: #e2e6ef;
+    --text:   #1a2140;
+    --muted:  #6b7490;
+}
+
+/* ── Body ── */
+body {
+    font-family: Arial, sans-serif;
+    background: var(--gray);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ── Split layout (login page) ── */
+.split-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.split-left {
+    flex: 1;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    color: var(--white);
+}
+
+.split-left h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.split-left p {
+    color: #9aa3b5;
+    font-style: italic;
+}
+
+.split-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    padding: 3rem;
+}
+
+/* ── Form box ── */
+.form-box {
+    width: 100%;
+    max-width: 380px;
+}
+
+.form-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+/* ── Form elements ── */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--purple);
+}
+
+/* ── Buttons ── */
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--purple);
+    color: var(--white);
+    width: 100%;
+}
+
+.btn-secondary {
+    background: var(--gray);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+/* ── Links ── */
+a {
+    color: var(--purple);
+    text-decoration: none;
+    font-size: 0.88rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ── Alert messages ── */
+.alert-danger {
+    background: #fde8e8;
+    color: #a32020;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
