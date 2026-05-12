@@ -1,9 +1,14 @@
 package com.example.projekt3_gruppe_7.controller;
 
+import com.example.projekt3_gruppe_7.model.Employee;
+import com.example.projekt3_gruppe_7.model.EmployeeRole;
 import com.example.projekt3_gruppe_7.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class EmployeeController {
@@ -17,11 +22,29 @@ public class EmployeeController {
 
     @GetMapping("/")
     public String login(){
-        return "/login";
-    }
-    @GetMapping("/registeruser")
-    public String registerUser(){
-        return "/registeruser";
+        return "login";
     }
 
+    @GetMapping("/register-user")
+    public String registerUser(){
+        return "register-user";
+    }
+
+    @PostMapping("/register-user")
+    public String registerUserForm(Model model, @RequestParam String name, @RequestParam EmployeeRole role, @RequestParam String username, @RequestParam String password,@RequestParam String confirmPassword){
+        Employee employee = new Employee(name,role,username,password);
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("passwordMismatch", true);
+            return "register-user";
+        }
+        if(employeeService.createEmployeeUser(employee)){
+            return "redirect:/login?registered=true";
+
+        }
+        //login error message
+        model.addAttribute("registrationError", true);
+
+        return "register-user";
+    }
 }

@@ -11,13 +11,22 @@
     <div class="split-left">
         <h1>Velkommen.</h1>
         <p>Log ind for at få adgang til dit dashboard</p>
+        <img th:src="@{/logo-illustration-text.svg}" style="width: 40%; opacity: 0.8; margin-top: 4rem;">
     </div>
 
     <div class="split-right">
+
         <div class="form-box">
+            <img th:src="@{/logo.png}" alt="Bilabonnement logo" style="width: 250px; margin-bottom: 2.5rem; display: block;">
             <h2>Log ind</h2>
 
-            <div class="alert-danger" th:if="${error}" th:text="${error}"></div>
+            <div class="alert-danger" th:if="${loginError}">
+                Indtastet username eller password er forkert.
+            </div>
+
+            <div class="alert-success" th:if="${param.registered}">
+                Bruger oprettet. Log ind med dine nye oplysninger.
+            </div>
 
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
@@ -36,7 +45,7 @@
             </form>
 
             <div style="text-align: center; margin-top: 1rem;">
-                <a th:href="@{/registeruser}">Opret ny bruger</a>
+                <a th:href="@{/register-user}">Opret ny bruger</a>
             </div>
         </div>
     </div>
