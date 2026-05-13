@@ -17,9 +17,7 @@ public class CarRegistrationService {
     private final CarRegistrationRepository carRegistrationRepository;
     private final RentalAgreementRepository rentalAgreementRepository;
 
-    public CarRegistrationService(CarRepository carRepository,
-                                  CarRegistrationRepository carRegistrationRepository,
-                                  RentalAgreementRepository rentalAgreementRepository) {
+    public CarRegistrationService(CarRepository carRepository, CarRegistrationRepository carRegistrationRepository, RentalAgreementRepository rentalAgreementRepository) {
         this.carRepository = carRepository;
         this.carRegistrationRepository = carRegistrationRepository;
         this.rentalAgreementRepository = rentalAgreementRepository;

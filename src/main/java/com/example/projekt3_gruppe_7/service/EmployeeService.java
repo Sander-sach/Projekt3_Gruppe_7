@@ -1,7 +1,6 @@
 package com.example.projekt3_gruppe_7.service;
 
 import com.example.projekt3_gruppe_7.model.Employee;
-import com.example.projekt3_gruppe_7.model.EmployeeRole;
 import com.example.projekt3_gruppe_7.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeService {
 
     private final BCryptPasswordEncoder passwordEncoder;
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, BCryptPasswordEncoder passwordEncoder) {
