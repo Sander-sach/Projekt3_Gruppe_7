@@ -10,8 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Repository
 public class EmployeeRepository {
@@ -19,30 +18,6 @@ public class EmployeeRepository {
     @Autowired
     private DataSource dataSource;
 
-    public Employee findById(Long id) {
-        Employee employee = null;
-        String sql = "SELECT * FROM employee WHERE id = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setLong(1, id);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String name = (resultSet.getString("name"));
-                    EmployeeRole role = EmployeeRole.valueOf(resultSet.getString("role"));
-                    String userName = (resultSet.getString("username"));
-                    String password = (resultSet.getString("password"));
-                    employee = new Employee(id, name, role, userName, password);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return employee;
-        }
-        return null;
-    }
 
     public Employee findByUsername(String username){
         Employee employee = null;

@@ -31,7 +31,7 @@ public class EmployeeServiceTest {
         //Act
         boolean result = employeeService.validatePasswordCharacters(password);
 
-        //Arrange
+        //Assert
         assertTrue(result);
     }
 
