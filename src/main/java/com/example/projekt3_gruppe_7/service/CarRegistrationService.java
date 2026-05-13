@@ -7,19 +7,19 @@ import com.example.projekt3_gruppe_7.model.RentalAgreement;
 import com.example.projekt3_gruppe_7.repository.CarRegistrationRepository;
 import com.example.projekt3_gruppe_7.repository.CarRepository;
 import com.example.projekt3_gruppe_7.repository.RentalAgreementRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CarRegistrationService {
 
     private final CarRepository carRepository;
     private final CarRegistrationRepository carRegistrationRepository;
     private final RentalAgreementRepository rentalAgreementRepository;
 
-    public CarRegistrationService(CarRepository carRepository,
-                                  CarRegistrationRepository carRegistrationRepository,
-                                  RentalAgreementRepository rentalAgreementRepository) {
+    public CarRegistrationService(CarRepository carRepository, CarRegistrationRepository carRegistrationRepository, RentalAgreementRepository rentalAgreementRepository) {
         this.carRepository = carRepository;
         this.carRegistrationRepository = carRegistrationRepository;
         this.rentalAgreementRepository = rentalAgreementRepository;
@@ -27,7 +27,9 @@ public class CarRegistrationService {
 
     // Gemmer registreringen og opdaterer bilens status til AVAILABLE
     public void complete(CarRegistration form) throws Exception {
-        validate(form);
+        if (!validate(form)) {
+            throw new IllegalArgumentException("Registrering er ugyldig");
+        }
         carRegistrationRepository.save(form);
         updateCarStatus(form.getRentalAgreementId());
     }
@@ -63,21 +65,22 @@ public class CarRegistrationService {
         carRepository.update(car);
     }
 
-    private void validate(CarRegistration form) {
+    private boolean validate(CarRegistration form) {
         if (form == null) {
-            throw new IllegalArgumentException("Registrering må ikke være null");
+            return false;
         }
         if (form.getLeasingCode() == null || form.getLeasingCode().isBlank()) {
-            throw new IllegalArgumentException("Leasingkode er påkrævet");
+            return false;
         }
         if (form.getIRKCode() == null || form.getIRKCode().isBlank()) {
-            throw new IllegalArgumentException("IRK-kode er påkrævet");
+            return false;
         }
         if (form.getPlateNumber() == null || form.getPlateNumber().isBlank()) {
-            throw new IllegalArgumentException("Nummerplade er påkrævet");
+            return false;
         }
         if (form.getRentalAgreementId() == null) {
-            throw new IllegalArgumentException("Lejeaftale-ID er påkrævet");
+            return false;
         }
+        return true;
     }
 }
