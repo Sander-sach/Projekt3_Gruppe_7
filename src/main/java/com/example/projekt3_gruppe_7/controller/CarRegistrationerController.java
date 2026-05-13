@@ -1,10 +1,8 @@
 package com.example.projekt3_gruppe_7.controller;
 
-import com.example.projekt3_gruppe_7.model.Car;
 import com.example.projekt3_gruppe_7.model.CarRegistration;
+import com.example.projekt3_gruppe_7.model.Car;
 import com.example.projekt3_gruppe_7.model.RentalAgreement;
-import com.example.projekt3_gruppe_7.repository.CarRepository;
-import com.example.projekt3_gruppe_7.repository.RentalAgreementRepository;
 import com.example.projekt3_gruppe_7.service.CarRegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,33 +14,27 @@ import java.util.List;
 public class CarRegistrationController {
 
     private final CarRegistrationService carRegistrationService;
-    private final CarRepository carRepository;
-    private final RentalAgreementRepository rentalAgreementRepository;
 
-    public CarRegistrationController(CarRegistrationService carRegistrationService,
-                                     CarRepository carRepository,
-                                     RentalAgreementRepository rentalAgreementRepository) {
+    public CarRegistrationController(CarRegistrationService carRegistrationService) {
         this.carRegistrationService = carRegistrationService;
-        this.carRepository = carRepository;
-        this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
-    // Viser liste over alle registreringer
+    // Viser liste over lejeaftaler uden registrering
     @GetMapping("/registrations")
     public String registrations(Model model) throws Exception {
-        List<CarRegistration> registrations = carRegistrationService.findAll();
-        model.addAttribute("registrations", registrations);
+        List<RentalAgreement> aftaler = carRegistrationService.findAgreementsWithoutRegistration();
+        model.addAttribute("aftaler", aftaler);
         return "registrations";
     }
 
     // Henter bil og lejeaftale og viser tjeklisten
-    @GetMapping("/delivery/{carId}")
-    public String newCarRegistration(@PathVariable Long carId, Model model) throws Exception {
-        Car car = carRepository.findById(carId);
-        RentalAgreement rentalAgreement = rentalAgreementRepository.findById(car.getRentalAgreementId());
+    @GetMapping("/delivery/{rentalAgreementId}")
+    public String newCarRegistration(@PathVariable Long rentalAgreementId, Model model) throws Exception {
+        RentalAgreement rentalAgreement = carRegistrationService.findRentalAgreementById(rentalAgreementId);
+        Car car = carRegistrationService.findCarByRentalAgreementId(rentalAgreementId);
 
-        model.addAttribute("car", car);
         model.addAttribute("rentalAgreement", rentalAgreement);
+        model.addAttribute("car", car);
         model.addAttribute("carRegistration", new CarRegistration());
 
         return "delivery";
