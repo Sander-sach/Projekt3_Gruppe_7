@@ -1,6 +1,7 @@
 package com.example.projekt3_gruppe_7.repository;
 
 import com.example.projekt3_gruppe_7.model.CarRegistration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -9,16 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CarRegistrationRepository {
-
+public class CarRegistrationRepository implements BaseRepository<CarRegistration> {
+    @Autowired
     private final DataSource dataSource;
-
     public CarRegistrationRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
     // Hent én registrering baseret på ID
-    public CarRegistration findById(long id) throws SQLException {
+    public CarRegistration findById(Long id) throws SQLException {
         Connection con = dataSource.getConnection();
         String sql = "SELECT * FROM car_registration WHERE car_registration_id = ?";
         PreparedStatement ps = con.prepareStatement(sql);
@@ -36,6 +35,9 @@ public class CarRegistrationRepository {
         }
         return null;
     }
+
+
+
 
     // Hent alle registreringer
     public List<CarRegistration> findAll() throws SQLException {

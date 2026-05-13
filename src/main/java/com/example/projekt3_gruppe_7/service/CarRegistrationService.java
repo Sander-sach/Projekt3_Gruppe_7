@@ -1,12 +1,12 @@
 package com.example.projekt3_gruppe_7.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import com.example.projekt3_gruppe_7.model.Car;
 import com.example.projekt3_gruppe_7.model.CarRegistration;
 import com.example.projekt3_gruppe_7.model.CarStatus;
 import com.example.projekt3_gruppe_7.model.RentalAgreement;
-import com.example.projekt3_gruppe_7.repository.CarRegistrationRepository;
-import com.example.projekt3_gruppe_7.repository.CarRepository;
-import com.example.projekt3_gruppe_7.repository.RentalAgreementRepository;
+import com.example.projekt3_gruppe_7.repository.BaseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +15,14 @@ import java.util.List;
 @Service
 public class CarRegistrationService {
 
-    private final CarRepository carRepository;
-    private final CarRegistrationRepository carRegistrationRepository;
-    private final RentalAgreementRepository rentalAgreementRepository;
+    private final BaseRepository<Car> carRepository;
+    private final BaseRepository<CarRegistration> carRegistrationRepository;
+    private final BaseRepository<RentalAgreement> rentalAgreementRepository;
 
-    public CarRegistrationService(CarRepository carRepository, CarRegistrationRepository carRegistrationRepository, RentalAgreementRepository rentalAgreementRepository) {
+    @Autowired
+    public CarRegistrationService(BaseRepository<Car> carRepository,
+                                  BaseRepository<CarRegistration> carRegistrationRepository,
+                                  BaseRepository<RentalAgreement> rentalAgreementRepository) {
         this.carRepository = carRepository;
         this.carRegistrationRepository = carRegistrationRepository;
         this.rentalAgreementRepository = rentalAgreementRepository;
@@ -39,13 +42,11 @@ public class CarRegistrationService {
         List<RentalAgreement> alleAftaler = rentalAgreementRepository.findAll();
         List<CarRegistration> alleRegistreringer = carRegistrationRepository.findAll();
 
-        // Saml alle rentalAgreementId'er der allerede har en registrering
         List<Long> registreredeIds = new ArrayList<>();
         for (CarRegistration cr : alleRegistreringer) {
             registreredeIds.add(cr.getRentalAgreementId());
         }
 
-        // Returner kun de aftaler der IKKE har en registrering
         List<RentalAgreement> manglerRegistrering = new ArrayList<>();
         for (RentalAgreement aftale : alleAftaler) {
             if (!registreredeIds.contains(aftale.getAgreementId())) {
@@ -57,7 +58,7 @@ public class CarRegistrationService {
 
     // Finder bilen via rentalAgreementId og sætter status til AVAILABLE
     private void updateCarStatus(Long rentalAgreementId) throws Exception {
-        Car car = carRepository.findByRentalAgreementId(rentalAgreementId);
+        Car car = carRepository.findById(rentalAgreementId);
         if (car == null) {
             throw new IllegalArgumentException("Ingen bil fundet for lejeaftale-ID: " + rentalAgreementId);
         }
@@ -66,21 +67,11 @@ public class CarRegistrationService {
     }
 
     private boolean validate(CarRegistration form) {
-        if (form == null) {
-            return false;
-        }
-        if (form.getLeasingCode() == null || form.getLeasingCode().isBlank()) {
-            return false;
-        }
-        if (form.getIRKCode() == null || form.getIRKCode().isBlank()) {
-            return false;
-        }
-        if (form.getPlateNumber() == null || form.getPlateNumber().isBlank()) {
-            return false;
-        }
-        if (form.getRentalAgreementId() == null) {
-            return false;
-        }
+        if (form == null) return false;
+        if (form.getLeasingCode() == null || form.getLeasingCode().isBlank()) return false;
+        if (form.getIRKCode() == null || form.getIRKCode().isBlank()) return false;
+        if (form.getPlateNumber() == null || form.getPlateNumber().isBlank()) return false;
+        if (form.getRentalAgreementId() == null) return false;
         return true;
     }
 }
