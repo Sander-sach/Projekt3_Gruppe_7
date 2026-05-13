@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilabonnement — Opret bruger</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<div class="split-layout">
+
+    <div class="split-left">
+        <h1>Opret bruger.</h1>
+        <p>Udfyld formularen for at oprette en ny bruger</p>
+        <img th:src="@{/logo-illustration-text.svg}" style="width: 40%; opacity: 0.8; margin-top: 4rem;">
+    </div>
+
+    <div class="split-right">
+        <div class="form-box">
+
+            <img th:src="@{/logo.png}" alt="Bilabonnement logo" style="width: 250px; margin-bottom: 2.5rem; display: block;">
+
+            <h2>Opret bruger</h2>
+
+            <div class="alert-danger" th:if="${registrationError}">
+                Brugernavnet er allerede i brug eller adgangskoden opfylder ikke kravene.
+            </div>
+            <div class="alert-danger" th:if="${passwordMismatch}">
+                Adgangskoderne stemmer ikke overens.
+            </div>
+
+            <form th:action="@{/register-user}" method="post">
+
+                <div class="form-group">
+                    <label>Navn</label>
+                    <input type="text" name="name" placeholder="Indtast fulde navn">
+                </div>
+
+                <div class="form-group">
+                    <label>Brugernavn</label>
+                    <input type="text" name="username" placeholder="Indtast brugernavn">
+                </div>
+
+                <div class="form-group">
+                    <label>Adgangskode</label>
+                    <input type="password" name="password" placeholder="Min. 8 tegn og ét tal">
+                </div>
+
+                <div class="form-group">
+                    <label>Bekræft adgangskode</label>
+                    <input type="password" name="confirmPassword" placeholder="Gentag adgangskode">
+                </div>
+
+                <div class="form-group">
+                    <label>Rolle</label>
+                    <select name="role">
+                        <option value="">Vælg rolle</option>
+                        <option value="DATA_REGISTRATION">Dataregistrering</option>
+                        <option value="DAMAGE_AND_REPAIR">Skade og udbedring</option>
+                        <option value="BUSINESS_DEVELOPER">Forretningsudvikler</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Opret bruger</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
