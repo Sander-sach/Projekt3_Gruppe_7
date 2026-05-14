@@ -1,15 +1,12 @@
 package com.example.projekt3_gruppe_7.service;
 
-import com.example.projekt3_gruppe_7.repository.CarRegistrationRepositoryImpl;
-import com.example.projekt3_gruppe_7.repository.CarRepositoryImpl;
-import com.example.projekt3_gruppe_7.repository.RentalAgreementRepositoryImpl;
+import com.example.projekt3_gruppe_7.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import com.example.projekt3_gruppe_7.model.Car;
 import com.example.projekt3_gruppe_7.model.CarRegistration;
 import com.example.projekt3_gruppe_7.model.CarStatus;
 import com.example.projekt3_gruppe_7.model.RentalAgreement;
-import com.example.projekt3_gruppe_7.repository.BaseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,17 +15,17 @@ import java.util.List;
 @Service
 public class CarRegistrationService {
 
-    private final CarRepositoryImpl carRepositoryImpl;
-    private final CarRegistrationRepositoryImpl carRegistrationRepositoryImpl;
-    private final RentalAgreementRepositoryImpl rentalAgreementRepositoryImpl;
+    private final BaseRepository<Car> carRepository;
+    private final BaseRepository<CarRegistration> carRegistrationRepository;
+    private final RentalAgreementRepository rentalAgreementRepository;
 
     @Autowired
-    public CarRegistrationService(CarRepositoryImpl carRepositoryImpl,
-                                  CarRegistrationRepositoryImpl carRegistrationRepositoryImpl,
-                                  RentalAgreementRepositoryImpl rentalAgreementRepositoryImpl) {
-        this.carRepositoryImpl = carRepositoryImpl;
-        this.carRegistrationRepositoryImpl = carRegistrationRepositoryImpl;
-        this.rentalAgreementRepositoryImpl = rentalAgreementRepositoryImpl;
+    public CarRegistrationService(BaseRepository<Car> carRepository,
+                                  BaseRepository<CarRegistration> carRegistrationRepository,
+                                  RentalAgreementRepository rentalAgreementRepository) {
+        this.carRepository = carRepository;
+        this.carRegistrationRepository = carRegistrationRepository;
+        this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
     // Gemmer registreringen og opdaterer bilens status
@@ -36,7 +33,7 @@ public class CarRegistrationService {
         if (!validateRegistration(form)) {
             return false;
         }
-        carRegistrationRepositoryImpl.save(form);
+        carRegistrationRepository.save(form);
         updateCarStatus(form.getRentalAgreementId());
         return true;
     }
@@ -44,18 +41,18 @@ public class CarRegistrationService {
     // Returnerer alle lejeaftaler der mangler registrering mangler
     public List<RentalAgreement> findAgreementsWithoutRegistration() throws Exception {
         List<RentalAgreement> list = new ArrayList<>();
-        list = rentalAgreementRepositoryImpl.findRentalAgreementMissingRegistration();
+        list = rentalAgreementRepository.findRentalAgreementMissingRegistration();
         return list;
     }
 
     // Finder bilen via rentalAgreementId og sætter status
     private boolean updateCarStatus(Long rentalAgreementId) throws Exception {
-        Car car = carRepositoryImpl.findById(rentalAgreementId);
+        Car car = carRepository.findById(rentalAgreementId);
         if (car == null) {
             return false;
         }
         car.setStatus(CarStatus.RENTED);
-        carRepositoryImpl.update(car);
+        carRepository.update(car);
         return true;
     }
 

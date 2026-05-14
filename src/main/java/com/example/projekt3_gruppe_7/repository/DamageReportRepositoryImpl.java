@@ -1,6 +1,6 @@
 package com.example.projekt3_gruppe_7.repository;
 
-import com.example.projekt3_gruppe_7.model.Costumer;
+
 import com.example.projekt3_gruppe_7.model.DamageReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

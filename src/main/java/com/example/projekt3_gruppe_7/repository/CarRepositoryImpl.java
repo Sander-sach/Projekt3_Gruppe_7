@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CarRepositoryImpl {
+public class CarRepositoryImpl implements CarRepository {
     @Autowired
     private final DataSource dataSource;
+
     public CarRepositoryImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }

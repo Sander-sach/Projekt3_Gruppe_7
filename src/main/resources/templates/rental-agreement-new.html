@@ -1,10 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ny Lejeaftale</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
+
+<div class="page-wrapper">
+
+
+    <div class="page-header">
+        <div class="breadcrumb">
+            <a th:href="@{/rental}">Lejeaftaler</a>
+            <span>›</span>
+            Ny aftale
+        </div>
+        <h1>Ny lejeaftale</h1>
+        <p class="subtitle">Udfyld oplysninger om kunde, bil og aftaleperiode</p>
+    </div>
+
+
+    <div class="alert alert-error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+
+    <div class="alert alert-success" th:if="${successMessage}">
+        <span th:text="${successMessage}"></span>
+    </div>
+
+
+    <form th:action="@{/rental/save}" th:object="${rentalAgreement}" method="post">
+
+
+        <div class="form-section">
+            <h2>Bil</h2>
+            <div class="form-group">
+                <label for="car">Vælg bil</label>
+                <select id="car" th:field="*{car}" required>
+                    <option value="">— Vælg bil —</option>
+                    <option th:each="car : ${availableCars}"
+                            th:value="${car.carId}"
+                            th:text="${car.maker + ' ' + car.model + ' – ' + car.stelnumber}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-section">
+            <h2>Kundeoplysninger</h2>
+            <div class="form-group">
+                <label for="firstName">Fornavn</label>
+                <input type="text" id="firstName" th:field="*{customer.firstName}" placeholder="Fx Valdemar" required/>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Efternavn</label>
+                <input type="text" id="lastName" th:field="*{customer.lastName}" placeholder="Fx Jacobsen" required/>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" th:field="*{customer.email}" placeholder="kunde@mail.dk" required/>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefon</label>
+                <input type="text" id="phone" th:field="*{customer.phone}" placeholder="Fx 12345678"/>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Aftaledetaljer</h2>
+            <div class="form-group">
+                <label for="startDate">Startdato</label>
+                <input type="date" id="startDate" th:field="*{startDate}" required/>
+            </div>
+            <div class="form-group">
+                <label for="endDate">Slutdato</label>
+                <input type="date" id="endDate" th:field="*{endDate}" required/>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionType">Abonnementstype</label>
+                <select id="subscriptionType" th:field="*{subscriptionType}" required>
+                    <option value="">— Vælg type —</option>
+                    <option value="LIMITED">Limited (5 måneder)</option>
+                    <option value="UNLIMITED">Unlimited (3–36 måneder)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="deliveryLocation">Afhentningssted</label>
+                <select id="deliveryLocation" th:field="*{deliveryLocation}" required>
+                    <option value="">— Vælg sted —</option>
+                    <option value="BILABONNEMENT">Bilabonnement</option>
+                    <option value="DS_SALON">DS Salon</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="price">Månedlig pris (DKK)</label>
+                <input type="number" id="price" th:field="*{price}" placeholder="Fx 4500" min="0" required/>
+            </div>
+        </div>
+        <!-- Knapper -->
+        <div class="form-actions">
+            <a th:href="@{/rental}">Annuller</a>
+            <button type="submit">Gem lejeaftale</button>
+        </div>
+
+    </form>
+</div>
 
 </body>
 </html>

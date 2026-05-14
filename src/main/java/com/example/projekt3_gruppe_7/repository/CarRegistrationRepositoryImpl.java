@@ -13,13 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CarRegistrationRepositoryImpl {
+public class CarRegistrationRepositoryImpl implements CarRegistrationRepository {
 
     @Autowired
     private final DataSource dataSource;
+
     public CarRegistrationRepositoryImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
+
     // Hent én registrering baseret på ID
     public CarRegistration findById(Long id) throws SQLException {
         Connection con = dataSource.getConnection();

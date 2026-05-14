@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Bil Registrering - Tjekliste</title>
 </head>
 <body>
+
+<h1>Registreringstjekliste</h1>
+
+
+<h2>Bilinformation</h2>
+<p>Mærke: <span th:text="${car.maker}"></span></p>
+<p>Model: <span th:text="${car.model}"></span></p>
+<p>Farve: <span th:text="${car.color}"></span></p>
+<p>Stelnum: <span th:text="${car.stelnumber}"></span></p>
+<p>Årgang: <span th:text="${car.year}"></span></p>
+
+<!-- Lejeaftaleinformation -->
+<h2>Lejeaftale</h2>
+<p>Aftale ID: <span th:text="${rentalAgreement.agreementId}"></span></p>
+<p>Startdato: <span th:text="${rentalAgreement.startDate}"></span></p>
+<p>Slutdato: <span th:text="${rentalAgreement.endDate}"></span></p>
+<p>Abonnementstype: <span th:text="${rentalAgreement.subscriptionType}"></span></p>
+<p>Leveringssted: <span th:text="${rentalAgreement.deliveryLocation}"></span></p>
+
+
+<h2>Udfyld tjekliste</h2>
+
+<form th:action="@{/delivery/complete}" th:object="${carRegistration}" method="post">
+
+
+    <input type="hidden" th:field="*{rentalAgreementId}" th:value="${rentalAgreement.agreementId}"/>
+
+    <label>Leasingkode:
+        <input type="text" th:field="*{leasingCode}" placeholder="Indtast leasingkode"/>
+    </label>
+    <br/>
+
+    <label>IRK-kode:
+        <input type="text" th:field="*{IRKCode}" placeholder="Indtast IRK-kode"/>
+    </label>
+    <br/>
+
+    <label>Nummerplade:
+        <input type="text" th:field="*{plateNumber}" placeholder="Fx AB12345"/>
+    </label>
+    <br/>
+
+    <button type="submit">Godkend og gem registrering</button>
+
+</form>
+
+<br/>
+<a th:href="@{/registrations}">Tilbage til oversigt</a>
 
 </body>
 </html>

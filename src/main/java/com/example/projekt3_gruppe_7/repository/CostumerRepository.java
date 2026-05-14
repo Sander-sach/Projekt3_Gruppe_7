@@ -1,37 +1,37 @@
 package com.example.projekt3_gruppe_7.repository;
 
+import com.example.projekt3_gruppe_7.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Repository;
-import com.example.projekt3_gruppe_7.model.Costumer;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CostumerRepository implements BaseRepository<Costumer>{
+public class CostumerRepository implements BaseRepository<Customer>{
 
     @Autowired
     private DataSource dataSource;
 
-    public Costumer findById(Long id){
-        Costumer costumer =null;
+    public Customer findById(Long id){
+        Customer customer =null;
 
-        return costumer;
+        return customer;
     }
 
-    public List<Costumer> findAll(){
-        List<Costumer> list = new ArrayList<>();
+    public List<Customer> findAll(){
+        List<Customer> list = new ArrayList<>();
 
         return list;
     }
 
-    public void save(Costumer entity){
+    public void save(Customer entity){
 
     }
 
-    public void update(Costumer entity){
+    public void update(Customer entity){
 
     }
 
