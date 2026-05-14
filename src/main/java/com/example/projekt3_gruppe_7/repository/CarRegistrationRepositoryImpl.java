@@ -24,21 +24,24 @@ public class CarRegistrationRepositoryImpl implements CarRegistrationRepository 
 
 
     // Hent én registrering baseret på ID
-    public CarRegistration findById(Long id) throws SQLException {
-        Connection con = dataSource.getConnection();
+    public CarRegistration findById(Long id) {
         String sql = "SELECT * FROM car_registration WHERE car_registration_id = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setLong(1, id);
-        ResultSet rs = ps.executeQuery();
+        try(Connection con = dataSource.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            CarRegistration cr = new CarRegistration();
-            cr.setCarRegistrationId(rs.getLong("car_registration_id"));
-            cr.setLeasingCode(rs.getString("leasing_code"));
-            cr.setIRKCode(rs.getString("irk_code"));
-            cr.setPlateNumber(rs.getString("plate_number"));
-            cr.setRentalAgreementId(rs.getLong("rental_agreement_id"));
-            return cr;
+            if (rs.next()) {
+                CarRegistration cr = new CarRegistration();
+                cr.setCarRegistrationId(rs.getLong("car_registration_id"));
+                cr.setLeasingCode(rs.getString("leasing_code"));
+                cr.setIRKCode(rs.getString("irk_code"));
+                cr.setPlateNumber(rs.getString("plate_number"));
+                cr.setRentalAgreementId(rs.getLong("rental_agreement_id"));
+                return cr;
+            }
+        }catch (SQLException e){
+
         }
         return null;
     }
@@ -67,28 +70,34 @@ public class CarRegistrationRepositoryImpl implements CarRegistrationRepository 
     }
 
     // Gem en ny registrering i databasen
-    public void save(CarRegistration cr) throws SQLException {
-        Connection con = dataSource.getConnection();
+    public void save(CarRegistration cr) {
         String sql = "INSERT INTO car_registration (leasing_code, irk_code, plate_number, rental_agreement_id) VALUES (?, ?, ?, ?)";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, cr.getLeasingCode());
-        ps.setString(2, cr.getIRKCode());
-        ps.setString(3, cr.getPlateNumber());
-        ps.setLong(4, cr.getRentalAgreementId());
-        ps.executeUpdate();
+        try(Connection con = dataSource.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql);){
+            ps.setString(1, cr.getLeasingCode());
+            ps.setString(2, cr.getIRKCode());
+            ps.setString(3, cr.getPlateNumber());
+            ps.setLong(4, cr.getRentalAgreementId());
+            ps.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     // Opdater en eksisterende registrering
-    public void update(CarRegistration cr) throws SQLException {
-        Connection con = dataSource.getConnection();
+    public void update(CarRegistration cr) {
         String sql = "UPDATE car_registration SET leasing_code = ?, irk_code = ?, plate_number = ?, rental_agreement_id = ? WHERE car_registration_id = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
+        try(Connection con = dataSource.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql)){
+
         ps.setString(1, cr.getLeasingCode());
         ps.setString(2, cr.getIRKCode());
         ps.setString(3, cr.getPlateNumber());
         ps.setLong(4, cr.getRentalAgreementId());
         ps.setLong(5, cr.getCarRegistrationId());
-        ps.executeUpdate();
+        ps.executeUpdate();}catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     // Slet en registrering baseret på ID

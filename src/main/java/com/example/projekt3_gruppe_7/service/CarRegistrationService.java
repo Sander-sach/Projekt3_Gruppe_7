@@ -29,7 +29,7 @@ public class CarRegistrationService {
     }
 
     // Gemmer registreringen og opdaterer bilens status
-    public boolean complete(CarRegistration form) throws Exception {
+    public boolean complete(CarRegistration form) {
         if (!validateRegistration(form)) {
             return false;
         }
@@ -46,7 +46,7 @@ public class CarRegistrationService {
     }
 
     // Finder bilen via rentalAgreementId og sætter status
-    private boolean updateCarStatus(Long rentalAgreementId) throws Exception {
+    private boolean updateCarStatus(Long rentalAgreementId){
         Car car = carRepository.findById(rentalAgreementId);
         if (car == null) {
             return false;

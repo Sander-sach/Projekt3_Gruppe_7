@@ -13,13 +13,13 @@ import java.util.List;
 
 public interface DamageReportRepository extends BaseRepository<DamageReport>{
 
-    DamageReport findById(Long id)throws SQLException;
+    DamageReport findById(Long id);
 
-    List<DamageReport> findAll()throws SQLException;
+    List<DamageReport> findAll();
 
-    void save(DamageReport entity)throws SQLException;
+    void save(DamageReport entity);
 
-    void update(DamageReport entity)throws SQLException;
+    void update(DamageReport entity);
 
     void delete(Long id)throws SQLException;
 }
