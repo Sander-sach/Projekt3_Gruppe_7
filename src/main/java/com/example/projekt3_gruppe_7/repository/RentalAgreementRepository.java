@@ -15,9 +15,9 @@ import java.util.List;
 
 public interface RentalAgreementRepository extends BaseRepository<RentalAgreement> {
 
-    RentalAgreement findById(Long id) throws SQLException;
+    RentalAgreement findById(Long id) ;
 
-   List<RentalAgreement> findAll() throws SQLException;
+    List<RentalAgreement> findAll() throws SQLException;
 
     void save(RentalAgreement entity) throws SQLException;
 

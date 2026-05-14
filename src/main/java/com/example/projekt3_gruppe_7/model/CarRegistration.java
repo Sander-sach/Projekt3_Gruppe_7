@@ -1,4 +1,5 @@
 package com.example.projekt3_gruppe_7.model;
+
 public class CarRegistration {
 
     private Long carRegistrationId;
@@ -17,6 +18,12 @@ public class CarRegistration {
         this.IRKCode = IRKCode;
         this.plateNumber = plateNumber;
         this.rentalAgreementId = rentalAgreementId;
+    }
+    // none id constructer
+    public CarRegistration(String leasingCode, String IRKCode, String plateNumber) {
+        this.leasingCode = leasingCode;
+        this.IRKCode = IRKCode;
+        this.plateNumber = plateNumber;
     }
 
     // Getters and Setters
