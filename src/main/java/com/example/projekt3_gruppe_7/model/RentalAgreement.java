@@ -43,6 +43,9 @@ public class RentalAgreement {
         this.subscriptionType = subscriptionType;
     }
 
+    public RentalAgreement() {
+    }
+
     public Long getRentalagreementId() {
         return rentalagreementId;
     }
@@ -90,5 +93,16 @@ public class RentalAgreement {
 
     public void setSubscriptionType(SubscriptionType subscriptionType) {
         this.subscriptionType = subscriptionType;
+    }
+    private void setCarId(Long carId) {
+        this.carId = carId;
+    }
+
+    private void setCostumerId(Long costumerId) {
+        this.costumerId = costumerId;
+    }
+
+    private void setRentalagreementId(Long rentalagreementId) {
+        this.rentalagreementId = rentalagreementId;
     }
 }
