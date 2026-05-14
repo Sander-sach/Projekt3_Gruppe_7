@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ny Lejeaftale</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
 </head>
 <body>
 
@@ -101,7 +101,7 @@
                 <input type="number" id="price" th:field="*{price}" placeholder="Fx 4500" min="0" required/>
             </div>
         </div>
-        <!-- Knapper -->
+
         <div class="form-actions">
             <a th:href="@{/rental}">Annuller</a>
             <button type="submit">Gem lejeaftale</button>

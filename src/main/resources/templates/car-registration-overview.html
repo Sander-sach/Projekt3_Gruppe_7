@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Bilabonnement — Bilregistrering</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
 </head>
 <body>
+<div class="app-layout">
 
+
+    <div class="sidebar">
+        <div class="sidebar-brand">Bil<span>abonnement</span></div>
+        <nav>
+            <a th:href="@{/}">Dashboard</a>
+            <a th:href="@{/rental}">Lejeaftaler</a>
+            <a th:href="@{/car-registration-overview}" class="active">Bilregistrering</a>
+            <a th:href="@{/damage}">Skaderapport</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a th:href="@{/logout}">Log ud</a>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+
+
+        <div class="topbar">
+            <span class="page-title">Bilregistrering — Oversigt</span>
+            <span class="topbar-user">Dataregistrering</span>
+        </div>
+
+        <div class="page-content">
+
+
+            <div class="alert-success" th:if="${missingRegistrations.isEmpty()}">
+                Alle lejeaftaler er registreret.
+            </div>
+
+
+            <table th:if="${!missingRegistrations.isEmpty()}" style="width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden;">
+                <thead style="background: var(--navy); color: white;">
+                <tr>
+                    <th style="padding: 1rem; text-align:left;">Aftale ID</th>
+                    <th style="padding: 1rem; text-align:left;">Bil ID</th>
+                    <th style="padding: 1rem; text-align:left;">Kunde ID</th>
+                    <th style="padding: 1rem; text-align:left;">Startdato</th>
+                    <th style="padding: 1rem; text-align:left;">Slutdato</th>
+                    <th style="padding: 1rem; text-align:left;">Afhentningssted</th>
+                    <th style="padding: 1rem; text-align:left;">Handling</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="agreement : ${missingRegistrations}" style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 1rem;" th:text="${agreement.agreementId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.carId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.customerId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.startDate}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.endDate}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.location}"></td>
+                    <td style="padding: 1rem;">
+                        <a th:href="@{/car-registration-new/{id}(id=${agreement.agreementId})}"
+                           class="btn btn-primary"
+                           style="width:auto; padding: 0.5rem 1rem;">
+                            Registrér
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
