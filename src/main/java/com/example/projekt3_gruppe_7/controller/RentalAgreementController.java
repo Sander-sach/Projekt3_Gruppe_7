@@ -35,18 +35,19 @@ public class RentalAgreementController {
     // Viser formular til oprettelse af ny lejeaftale
     // Henter alle tilgængelige biler så brugeren kan vælge
     @GetMapping("/rental/new")
-    public String newRentalAgreement(Model model) {
+    public String newRentalAgreement(Model model) throws Exception {
         List<Car> availableCars = carRepository.findAll().stream()
                 .filter(car -> car.getStatus() == CarStatus.AVAILABLE)
                 .toList();
-        model.addAttribute("cars", availableCars);
-        model.addAttribute("agreement", new RentalAgreement(null, null, null, null, null, null));
-        return "rental-form";
+        model.addAttribute("availableCars", availableCars);
+        model.addAttribute("rentalAgreement", new RentalAgreement(null, null, null, null, null, null));
+        return "rental-agreement-new";
+
     }
 
     // Modtager og gemmer en ny lejeaftale fra formularen
     @PostMapping("/rental/R-A-new")
-    public String saveAgreement(@ModelAttribute RentalAgreement agreement, Model model) {
+    public String saveAgreement(@ModelAttribute RentalAgreement agreement, Model model)throws Exception {
         boolean success = rentalAgreementService.create(agreement);
 
         if (!success) {
