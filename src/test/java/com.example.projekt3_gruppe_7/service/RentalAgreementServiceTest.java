@@ -42,7 +42,7 @@ public class RentalAgreementServiceTest {
                 LocalDate.now(),
                 LocalDate.now().plusMonths(5),
                 Location.HQ,
-                SubscriptionType.LIMITED
+                SubscriptionType.LIMITED, 1200
         );
         // Act
         boolean result = rentalAgreementService.create(agreement);
@@ -66,7 +66,7 @@ public class RentalAgreementServiceTest {
                 LocalDate.now(),
                 LocalDate.now().plusMonths(5),
                 Location.HQ,
-                SubscriptionType.LIMITED
+                SubscriptionType.LIMITED, 1200
         );
 
         // Act

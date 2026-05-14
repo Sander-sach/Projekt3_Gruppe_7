@@ -27,7 +27,7 @@ public class RentalAgreementService {
         if (agreement.getCarId() == null)
             return false;
 
-        if (agreement.getCostumerId() == null)
+        if (agreement.getCustomerId() == null)
             return false;
 
         if (agreement.getStartDate() == null || agreement.getEndDate() == null)

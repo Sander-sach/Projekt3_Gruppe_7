@@ -61,12 +61,12 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
     }
 
     public void save(RentalAgreement entity) {
-        String sql = "INSERT INTO rental_agreement (car_id, costumer_id, report_id, start_date, end_date, location, subscription_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO rental_agreement (car_id, customer_id, report_id, start_date, end_date, monthly_price, location, subscription_type) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, entity.getCarId());
-            statement.setLong(2, entity.getCostumerId());
+            statement.setLong(2, entity.getCustomerId());
             // damageReportId kan være null når aftalen oprettes
             if (entity.getDamageReportId() != null) {
                 statement.setLong(3, entity.getDamageReportId());
@@ -75,8 +75,9 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
             }
             statement.setDate(4, java.sql.Date.valueOf(entity.getStartDate()));
             statement.setDate(5, java.sql.Date.valueOf(entity.getEndDate()));
-            statement.setString(6, entity.getLocation().name());
-            statement.setString(7, entity.getSubscriptionType().name());
+            statement.setDouble (6, entity.getMonthlyPrice());
+            statement.setString(7, entity.getLocation().name());
+            statement.setString(8, entity.getSubscriptionType().name());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,12 +85,12 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
     }
 
     public void update(RentalAgreement entity) {
-        String sql = "UPDATE rental_agreement SET car_id = ?, costumer_id = ?, report_id = ?, start_date = ?, end_date = ?, location = ?, subscription_type = ? WHERE agreement_id = ?";
+        String sql = "UPDATE rental_agreement SET car_id = ?, customer_id = ?, report_id = ?, start_date = ?, end_date = ?,monthly_price = ?, location = ?, subscription_type = ? WHERE agreement_id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, entity.getCarId());
-            statement.setLong(2, entity.getCostumerId());
+            statement.setLong(2, entity.getCustomerId());
             if (entity.getDamageReportId() != null) {
                 statement.setLong(3, entity.getDamageReportId());
             } else {
@@ -97,9 +98,10 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
             }
             statement.setDate(4, java.sql.Date.valueOf(entity.getStartDate()));
             statement.setDate(5, java.sql.Date.valueOf(entity.getEndDate()));
-            statement.setString(6, entity.getLocation().name());
-            statement.setString(7, entity.getSubscriptionType().name());
-            statement.setLong(8, entity.getRentalagreementId());
+            statement.setDouble (6, entity.getMonthlyPrice());
+            statement.setString(7, entity.getLocation().name());
+            statement.setString(8, entity.getSubscriptionType().name());
+            statement.setLong(9, entity.getRentalagreementId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,13 +142,17 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
     private RentalAgreement mapRow(ResultSet resultSet) throws SQLException {
         Long agreementId = resultSet.getLong("agreement_id");
         Long carId = resultSet.getLong("car_id");
-        Long costumerId = resultSet.getLong("costumer_id");
+        Long costumerId = resultSet.getLong("customer_id");
         Long damageReportId = resultSet.getLong("report_id");
+        if (resultSet.wasNull()) {
+            damageReportId = null;
+        }
         LocalDate startDate = resultSet.getDate("start_date").toLocalDate();
         LocalDate endDate = resultSet.getDate("end_date").toLocalDate();
         Location location = Location.valueOf(resultSet.getString("location"));
         SubscriptionType subscriptionType = SubscriptionType.valueOf(resultSet.getString("subscription_type"));
+        double monthlyPrice = resultSet.getDouble("monthly_price");
 
-        return new RentalAgreement(agreementId, carId, costumerId, damageReportId, startDate, endDate, location, subscriptionType);
+        return new RentalAgreement(agreementId, carId, costumerId, damageReportId, startDate, endDate, location, subscriptionType,monthlyPrice);
     }
 }

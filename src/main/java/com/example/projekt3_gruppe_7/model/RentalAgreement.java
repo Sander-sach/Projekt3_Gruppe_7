@@ -11,9 +11,10 @@ public class RentalAgreement {
     private LocalDate endDate;
     private Location location;
     private SubscriptionType subscriptionType;
+    private double monthlyPrice;
 
     // fuld constructer
-    public RentalAgreement(Long rentalagreementId, Long carId, Long costumerId, Long damageReportId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType) {
+    public RentalAgreement(Long rentalagreementId, Long carId, Long costumerId, Long damageReportId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType,double monthlyPrice) {
         this.rentalagreementId = rentalagreementId;
         this.carId = carId;
         this.costumerId = costumerId;
@@ -22,24 +23,27 @@ public class RentalAgreement {
         this.endDate = endDate;
         this.location = location;
         this.subscriptionType = subscriptionType;
+        this.monthlyPrice = monthlyPrice;
     }
     // Contructer uden rental id
-    public RentalAgreement(Long carId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType) {
+    public RentalAgreement(Long carId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType, double monthlyPrice) {
         this.carId = carId;
         this.damageReportId = damageReportId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.subscriptionType = subscriptionType;
+        this.monthlyPrice = monthlyPrice;
     }
     //Constructer uden rental Id og damageReport
-    public RentalAgreement(Long carId, Long costumerId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType) {
+    public RentalAgreement(Long carId, Long costumerId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType,double monthlyPrice) {
         this.carId = carId;
         this.costumerId = costumerId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.subscriptionType = subscriptionType;
+        this.monthlyPrice = monthlyPrice;
     }
 
     public RentalAgreement() {
@@ -53,7 +57,7 @@ public class RentalAgreement {
         return carId;
     }
 
-    public Long getCostumerId() {
+    public Long getCustomerId() {
         return costumerId;
     }
 
@@ -97,11 +101,19 @@ public class RentalAgreement {
         this.carId = carId;
     }
 
-    private void setCostumerId(Long costumerId) {
+    private void setCustomerId(Long costumerId) {
         this.costumerId = costumerId;
     }
 
     private void setRentalagreementId(Long rentalagreementId) {
         this.rentalagreementId = rentalagreementId;
+    }
+
+    public double getMonthlyPrice() {
+        return monthlyPrice;
+    }
+
+    public void setMonthlyPrice(double monthlyPrice) {
+        this.monthlyPrice = monthlyPrice;
     }
 }

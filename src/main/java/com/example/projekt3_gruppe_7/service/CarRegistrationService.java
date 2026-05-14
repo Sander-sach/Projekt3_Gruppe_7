@@ -15,12 +15,12 @@ import java.util.List;
 @Service
 public class CarRegistrationService {
 
-    private final BaseRepository<Car> carRepository;
+    private final CarRepository carRepository;
     private final BaseRepository<CarRegistration> carRegistrationRepository;
     private final RentalAgreementRepository rentalAgreementRepository;
 
     @Autowired
-    public CarRegistrationService(BaseRepository<Car> carRepository,
+    public CarRegistrationService(CarRepository carRepository,
                                   BaseRepository<CarRegistration> carRegistrationRepository,
                                   RentalAgreementRepository rentalAgreementRepository) {
         this.carRepository = carRepository;
@@ -40,14 +40,17 @@ public class CarRegistrationService {
 
     // Returnerer alle lejeaftaler der mangler registrering mangler
     public List<RentalAgreement> findAgreementsWithoutRegistration() {
-        List<RentalAgreement> list = new ArrayList<>();
+        List<RentalAgreement> list;
         list = rentalAgreementRepository.findRentalAgreementMissingRegistration();
+        if(list.isEmpty()){
+            return null;
+        }
         return list;
     }
 
     // Finder bilen via rentalAgreementId og sætter status
     private boolean updateCarStatus(Long rentalAgreementId){
-        Car car = carRepository.findById(rentalAgreementId);
+        Car car = carRepository.findByRentalAgreementId(rentalAgreementId);
         if (car == null) {
             return false;
         }

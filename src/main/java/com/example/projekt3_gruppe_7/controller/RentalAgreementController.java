@@ -69,9 +69,9 @@ public class RentalAgreementController {
     // Modtager og gemmer en ny lejeaftale fra formularen
     @PostMapping("/rental-agreement-save")
     public String saveAgreement(@RequestParam Long carId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate,@RequestParam Location location,
-                                @RequestParam SubscriptionType subscriptionType,@RequestParam String name,@RequestParam String phone,@RequestParam String email,  Model model){
+                                @RequestParam SubscriptionType subscriptionType,@RequestParam double monthlyPrice, @RequestParam String name,@RequestParam String phone,@RequestParam String email,  Model model){
 
-        RentalAgreement rentalAgreement = new RentalAgreement(carId,startDate,endDate,location,subscriptionType);
+        RentalAgreement rentalAgreement = new RentalAgreement(carId,startDate,endDate,location,subscriptionType,monthlyPrice);
         Customer customer = new Customer(name,phone,email);
         if (!rentalAgreementService.create(rentalAgreement) || !customerService.create(customer)) {
             model.addAttribute("errorForm", true);

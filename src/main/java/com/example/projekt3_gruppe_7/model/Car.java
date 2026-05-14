@@ -10,13 +10,12 @@ public class Car {
     private String model;
     private int year;
     private CarStatus status;
-    private Long rentalAgreementId;
 
     // Default constructor
     public Car() {}
 
     // All-args constructor
-    public Car(Long carId, String stelnumber, String color, String maker, String model, int year, CarStatus status, Long rentalAgreementId) {
+    public Car(Long carId, String stelnumber, String color, String maker, String model, int year, CarStatus status) {
         this.carId = carId;
         this.stelnumber = stelnumber;
         this.color = color;
@@ -24,7 +23,16 @@ public class Car {
         this.model = model;
         this.year = year;
         this.status = status;
-        this.rentalAgreementId = rentalAgreementId;
+
+    }
+
+    public Car(String stelnumber, String color, String maker, String model, int year, CarStatus status) {
+        this.stelnumber = stelnumber;
+        this.color = color;
+        this.maker = maker;
+        this.model = model;
+        this.year = year;
+        this.status = status;
     }
 
     // Getters og Setters
@@ -84,13 +92,6 @@ public class Car {
         this.status = status;
     }
 
-    public Long getRentalAgreementId() {
-        return rentalAgreementId;
-    }
-
-    public void setRentalAgreementId(Long rentalAgreementId) {
-        this.rentalAgreementId = rentalAgreementId;
-    }
 
     @Override
     public String toString() {
@@ -102,7 +103,6 @@ public class Car {
                 ", model='" + model + '\'' +
                 ", year=" + year +
                 ", status=" + status +
-                ", rentalAgreementId=" + rentalAgreementId +
                 '}';
     }
 }

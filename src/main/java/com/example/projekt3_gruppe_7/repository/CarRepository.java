@@ -9,4 +9,6 @@ public interface CarRepository extends BaseRepository<Car> {
     void save(Car entity);
     void update(Car entity);
     void delete(Long id);
+    Car findByRentalAgreementId(Long rentalAgreementId);
+    Car findByStelNumber(String stelNumber);
 }

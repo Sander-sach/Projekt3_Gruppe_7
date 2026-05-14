@@ -19,6 +19,9 @@ public class Customer {
       this.email = email;
    }
 
+   public Customer() {
+   }
+
    public Long getCustomerId() {
       return customerId;
    }
@@ -45,5 +48,9 @@ public class Customer {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   public void setCustomerId(Long customerId) {
+      this.customerId = customerId;
    }
 }

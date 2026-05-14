@@ -42,8 +42,9 @@ public class CarRegistrationController {
 
         List<RentalAgreement> missingRegistrations = carRegistrationService.findAgreementsWithoutRegistration();
         if (missingRegistrations == null) {
-            missingRegistrations = new ArrayList<>();
+            model.addAttribute("missingRegistrations", missingRegistrations);
         }
+        missingRegistrations = new ArrayList<>();
         model.addAttribute("missingRegistrations", missingRegistrations);
         return "car-registration-overview";
     }

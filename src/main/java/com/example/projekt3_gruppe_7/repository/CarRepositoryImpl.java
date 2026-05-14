@@ -80,7 +80,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     // Gem en ny bil i databasen
     public void save(Car car) {
-        String sql = "INSERT INTO car (stelnumber, color, maker, model, year, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO car (stel_number, colour, maker, model, year, status) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -98,7 +98,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     // Opdater en eksisterende bil
     public void update(Car car) {
-        String sql = "UPDATE car SET stelnumber = ?, color = ?, maker = ?, model = ?, year = ?, status = ? WHERE car_id = ?";
+        String sql = "UPDATE car SET stel_number = ?, colour = ?, maker = ?, model = ?, year = ?, status = ? WHERE car_id = ?";
 
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -139,5 +139,22 @@ public class CarRepositoryImpl implements CarRepository {
         car.setYear(rs.getInt("year"));
         car.setStatus(CarStatus.valueOf(rs.getString("status")));
         return car;
+    }
+    public Car findByStelNumber(String stelNumber){
+        String sql = "SELECT * FROM car WHERE stel_number = ?";
+
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, stelNumber);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRow(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

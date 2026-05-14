@@ -20,7 +20,7 @@ public class CarRegistration {
         this.rentalAgreementId = rentalAgreementId;
     }
     // none id constructer
-    public CarRegistration(String leasingCode, String IRKCode, String plateNumber) {
+    public CarRegistration(String leasingCode, String IRKCode, String plateNumber,Long rentalAgreementId) {
         this.leasingCode = leasingCode;
         this.IRKCode = IRKCode;
         this.plateNumber = plateNumber;

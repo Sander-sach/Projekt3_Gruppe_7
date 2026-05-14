@@ -55,7 +55,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="agreement : ${missingRegistrations}" style="border-bottom: 1px solid var(--border);">
+                <tr th:each="agreement : ${!missingRegistrations.isEmpty()}" style="border-bottom: 1px solid var(--border);">
                     <td style="padding: 1rem;" th:text="${agreement.agreementId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.carId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.customerId}"></td>

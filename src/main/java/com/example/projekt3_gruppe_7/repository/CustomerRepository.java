@@ -13,41 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CustomerRepository implements BaseRepository<Customer>{
+public interface CustomerRepository extends BaseRepository<Customer>{
 
-    @Autowired
-    private DataSource dataSource;
 
-    public Customer findById(Long id){
-        Customer customer =null;
+    Customer findById(Long id);
 
-        return customer;
-    }
+    List<Customer> findAll();
 
-    public List<Customer> findAll(){
-        List<Customer> list = new ArrayList<>();
+    void save(Customer customer);
 
-        return list;
-    }
+    void update(Customer entity);
 
-    public void save(Customer customer){
-        String sql = "INSERT INTO customer (name,phone,email) VALUES (?, ?, ?)";
-        try(Connection con = dataSource.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);){
-            ps.setString(1, customer.getName());
-            ps.setString(2, customer.getPhone());
-            ps.setString(3, customer.getEmail());
-            ps.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
+    void delete(Long id);
 
-    public void update(Customer entity){
+    Customer findByPhone(String phone);
 
-    }
-
-    public void delete(Long id){
-
-    }
 }
