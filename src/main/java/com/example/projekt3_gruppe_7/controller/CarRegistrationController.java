@@ -5,7 +5,8 @@ import com.example.projekt3_gruppe_7.model.Car;
 import com.example.projekt3_gruppe_7.model.RentalAgreement;
 import com.example.projekt3_gruppe_7.service.CarRegistrationService;
 import com.example.projekt3_gruppe_7.service.CarService;
-import com.example.projekt3_gruppe_7.service.RentalAgreeementService;
+import com.example.projekt3_gruppe_7.service.RentalAgreementService;
+import com.example.projekt3_gruppe_7.service.RentalAgreementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +18,13 @@ import java.util.List;
 public class CarRegistrationController {
 
     private final CarRegistrationService carRegistrationService;
-    private final RentalAgreeementService rentalAgreeementService;
+    private final RentalAgreementService rentalAgreementService;
     private final CarService carService;
 
     @Autowired
-    public CarRegistrationController(CarRegistrationService carRegistrationService, RentalAgreeementService rentalAgreeementService, CarService carService) {
+    public CarRegistrationController(CarRegistrationService carRegistrationService, RentalAgreementService rentalAgreementService, CarService carService) {
         this.carRegistrationService = carRegistrationService;
-        this.rentalAgreeementService = rentalAgreeementService;
+        this.rentalAgreementService = rentalAgreementService;
         this.carService = carService;
     }
 
@@ -38,7 +39,7 @@ public class CarRegistrationController {
     // Henter bil og lejeaftale og viser tjeklisten
     @GetMapping("/car-registration-new/{rentalAgreementId}")
     public String newCarRegistration(@PathVariable Long rentalAgreementId, Model model) throws Exception {
-        RentalAgreement rentalAgreement = rentalAgreeementService.findRentalAgreementById(rentalAgreementId);
+        RentalAgreement rentalAgreement = rentalAgreementService.findRentalAgreementById(rentalAgreementId);
         Car car = carService.findCarById(rentalAgreement.getCarId());
 
         model.addAttribute("rentalAgreement", rentalAgreement);

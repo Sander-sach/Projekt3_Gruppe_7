@@ -81,8 +81,8 @@ public class RentalAgreementService {
     }
 
     // Henter en specifik aftale på baggrund af id
-    public RentalAgreement findById(Long id) {
-        return rentalAgreementRepository.findById(id);
+    public RentalAgreement findRentalAgreementById(Long rentalAgreementId) {
+        return rentalAgreementRepository.findById(rentalAgreementId);
     }
 
     public List<RentalAgreement> getAllAgreements() {
