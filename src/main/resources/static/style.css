@@ -165,3 +165,141 @@ a:hover {
     margin-bottom: 1rem;
     font-size: 0.9rem;
 }
+
+/* ── App layout ── */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+    width: 220px;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+}
+
+.sidebar-brand {
+    padding: 0 1.5rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 1rem;
+}
+
+.sidebar-brand span {
+    color: var(--purple);
+    font-weight: 400;
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 0.7rem 1.5rem;
+    color: #9aa3b5;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+}
+
+.sidebar nav a:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--white);
+}
+
+.sidebar nav a.active {
+    color: var(--white);
+    border-left: 3px solid var(--purple);
+    background: rgba(255,255,255,0.05);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.85rem;
+    color: #9aa3b5;
+}
+
+.sidebar-footer a {
+    color: #9aa3b5;
+    font-size: 0.85rem;
+}
+
+.sidebar-footer a:hover {
+    color: var(--white);
+}
+
+/* ── Topbar ── */
+.topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.page-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.topbar-user {
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+/* ── Main content ── */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--gray);
+}
+
+.page-content {
+    padding: 2rem;
+    flex: 1;
+}
+
+/* ── Dashboard action buttons ── */
+.dashboard-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 12px;
+    padding: 2rem 3rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    min-width: 180px;
+}
+
+.dashboard-btn-navy {
+    background: var(--navy);
+    color: var(--white);
+}
+
+.dashboard-btn-navy span {
+    color: #9aa3b5;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.dashboard-btn-purple {
+    background: var(--purple);
+    color: var(--white);
+}
+
+.dashboard-btn-purple span {
+    color: #ddc8f0;
+    font-size: 0.8rem;
+    font-weight: 400;
+}

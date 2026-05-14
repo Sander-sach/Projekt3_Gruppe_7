@@ -59,22 +59,23 @@ public class EmployeeRepository {
         }
     }
 
-    public boolean checkUsernameExists(String username){
+    public boolean checkUsernameExists(String username) {
         String sql = "SELECT COUNT(*) FROM employee WHERE username = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt(1) > 0;
-                }
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
             }
-        } catch (SQLException e) {
+        }catch (SQLException e){
             e.printStackTrace();
         }
+
+
         return false;
     }
 }

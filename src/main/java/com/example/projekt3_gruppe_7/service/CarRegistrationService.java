@@ -1,5 +1,8 @@
 package com.example.projekt3_gruppe_7.service;
 
+import com.example.projekt3_gruppe_7.repository.CarRegistrationRepositoryImpl;
+import com.example.projekt3_gruppe_7.repository.CarRepositoryImpl;
+import com.example.projekt3_gruppe_7.repository.RentalAgreementRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import com.example.projekt3_gruppe_7.model.Car;
@@ -15,58 +18,48 @@ import java.util.List;
 @Service
 public class CarRegistrationService {
 
-    private final BaseRepository<Car> carRepository;
-    private final BaseRepository<CarRegistration> carRegistrationRepository;
-    private final BaseRepository<RentalAgreement> rentalAgreementRepository;
+    private final CarRepositoryImpl carRepositoryImpl;
+    private final CarRegistrationRepositoryImpl carRegistrationRepositoryImpl;
+    private final RentalAgreementRepositoryImpl rentalAgreementRepositoryImpl;
 
     @Autowired
-    public CarRegistrationService(BaseRepository<Car> carRepository,
-                                  BaseRepository<CarRegistration> carRegistrationRepository,
-                                  BaseRepository<RentalAgreement> rentalAgreementRepository) {
-        this.carRepository = carRepository;
-        this.carRegistrationRepository = carRegistrationRepository;
-        this.rentalAgreementRepository = rentalAgreementRepository;
+    public CarRegistrationService(CarRepositoryImpl carRepositoryImpl,
+                                  CarRegistrationRepositoryImpl carRegistrationRepositoryImpl,
+                                  RentalAgreementRepositoryImpl rentalAgreementRepositoryImpl) {
+        this.carRepositoryImpl = carRepositoryImpl;
+        this.carRegistrationRepositoryImpl = carRegistrationRepositoryImpl;
+        this.rentalAgreementRepositoryImpl = rentalAgreementRepositoryImpl;
     }
 
-    // Gemmer registreringen og opdaterer bilens status til AVAILABLE
-    public void complete(CarRegistration form) throws Exception {
-        if (!validate(form)) {
-            throw new IllegalArgumentException("Registrering er ugyldig");
+    // Gemmer registreringen og opdaterer bilens status
+    public boolean complete(CarRegistration form) throws Exception {
+        if (!validateRegistration(form)) {
+            return false;
         }
-        carRegistrationRepository.save(form);
+        carRegistrationRepositoryImpl.save(form);
         updateCarStatus(form.getRentalAgreementId());
+        return true;
     }
 
-    // Returnerer alle lejeaftaler hvor bilens registrering mangler
+    // Returnerer alle lejeaftaler der mangler registrering mangler
     public List<RentalAgreement> findAgreementsWithoutRegistration() throws Exception {
-        List<RentalAgreement> alleAftaler = rentalAgreementRepository.findAll();
-        List<CarRegistration> alleRegistreringer = carRegistrationRepository.findAll();
-
-        List<Long> registreredeIds = new ArrayList<>();
-        for (CarRegistration cr : alleRegistreringer) {
-            registreredeIds.add(cr.getRentalAgreementId());
-        }
-
-        List<RentalAgreement> manglerRegistrering = new ArrayList<>();
-        for (RentalAgreement aftale : alleAftaler) {
-            if (!registreredeIds.contains(aftale.getAgreementId())) {
-                manglerRegistrering.add(aftale);
-            }
-        }
-        return manglerRegistrering;
+        List<RentalAgreement> list = new ArrayList<>();
+        list = rentalAgreementRepositoryImpl.findRentalAgreementMissingRegistration();
+        return list;
     }
 
-    // Finder bilen via rentalAgreementId og sætter status til AVAILABLE
-    private void updateCarStatus(Long rentalAgreementId) throws Exception {
-        Car car = carRepository.findById(rentalAgreementId);
+    // Finder bilen via rentalAgreementId og sætter status
+    private boolean updateCarStatus(Long rentalAgreementId) throws Exception {
+        Car car = carRepositoryImpl.findById(rentalAgreementId);
         if (car == null) {
-            throw new IllegalArgumentException("Ingen bil fundet for lejeaftale-ID: " + rentalAgreementId);
+            return false;
         }
-        car.setStatus(CarStatus.AVAILABLE);
-        carRepository.update(car);
+        car.setStatus(CarStatus.RENTED);
+        carRepositoryImpl.update(car);
+        return true;
     }
 
-    private boolean validate(CarRegistration form) {
+    private boolean validateRegistration(CarRegistration form) {
         if (form == null) return false;
         if (form.getLeasingCode() == null || form.getLeasingCode().isBlank()) return false;
         if (form.getIRKCode() == null || form.getIRKCode().isBlank()) return false;

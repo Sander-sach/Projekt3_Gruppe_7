@@ -1,39 +1,31 @@
 package com.example.projekt3_gruppe_7.repository;
+import com.example.projekt3_gruppe_7.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.example.projekt3_gruppe_7.model.RentalAgreement;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class RentalAgreementRepository implements BaseRepository<RentalAgreement> {
 
-    @Autowired
-    private DataSource dataSource;
+public interface RentalAgreementRepository extends BaseRepository<RentalAgreement> {
 
-    public RentalAgreement findById(Long id){
-        RentalAgreement rentalAgreement =null;
+    RentalAgreement findById(Long id) throws SQLException;
 
-        return rentalAgreement;
-    }
+   List<RentalAgreement> findAll() throws SQLException;
 
-    public List<RentalAgreement> findAll(){
-        List<RentalAgreement> list = new ArrayList<>();
+    void save(RentalAgreement entity) throws SQLException;
 
-        return list;
-    }
+    void update(RentalAgreement entity) throws SQLException;
 
-    public void save(RentalAgreement entity){
+    void delete(Long id) throws SQLException;
 
-    }
+    // Søger i DB med Left join ved brug af foreign key i car_registration
+    List<RentalAgreement> findRentalAgreementMissingRegistration() throws SQLException;
 
-    public void update(RentalAgreement entity){
-
-    }
-
-    public void delete(Long id){
-
-    }
 }

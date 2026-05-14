@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+
 @Service
 public class EmployeeService {
 
@@ -19,14 +21,15 @@ public class EmployeeService {
     }
 
     public boolean createEmployeeUser(Employee employee){
-        if(employeeRepository.checkUsernameExists(employee.getUserName())){
-            return false;
-        }
-        if (!validatePasswordCharacters(employee.getPassword())) {
-            return false;
-        }
-        employee.setPassword(hashPassword(employee.getPassword()));
-        employeeRepository.save(employee);
+
+            if (employeeRepository.checkUsernameExists(employee.getUserName())) {
+                return false;
+            }
+            if (!validatePasswordCharacters(employee.getPassword())) {
+                return false;
+            }
+            employee.setPassword(hashPassword(employee.getPassword()));
+            employeeRepository.save(employee);
         return true;
     }
 
@@ -48,11 +51,11 @@ public class EmployeeService {
     }
 
     public Employee login(String username, String plainPassword){
-        Employee employee = employeeRepository.findByUsername(username);
-            if(employee != null && verifyPassword(plainPassword,employee.getPassword())){
+            Employee employee = employeeRepository.findByUsername(username);
+            if (employee != null && verifyPassword(plainPassword, employee.getPassword())) {
                 return employee;
             }
-            return null;
+         return null;
     }
 
 }
