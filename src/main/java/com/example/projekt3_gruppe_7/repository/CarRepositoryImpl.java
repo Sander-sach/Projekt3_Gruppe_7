@@ -132,8 +132,8 @@ public class CarRepositoryImpl implements CarRepository {
     private Car mapRow(ResultSet rs) throws SQLException {
         Car car = new Car();
         car.setCarId(rs.getLong("car_id"));
-        car.setStelnumber(rs.getString("stelnumber"));
-        car.setColor(rs.getString("color"));
+        car.setStelnumber(rs.getString("stel_number"));
+        car.setColor(rs.getString("colour"));
         car.setMaker(rs.getString("maker"));
         car.setModel(rs.getString("model"));
         car.setYear(rs.getInt("year"));
