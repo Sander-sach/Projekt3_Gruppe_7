@@ -22,13 +22,15 @@ public class RentalAgreeementService {
         this.carRepository = carRepository;
     }
 
-    public RentalAgreement findRentalAgreementById(Long rentalAgreementId){
+    public RentalAgreement findRentalAgreementById(Long rentalAgreementId) {
         return rentalagreementRepositoryImpl.findById(rentalAgreementId);
 
     }
-    public boolean createNewRentalAgreement(RentalAgreement rentalAgreement, Car car){
+
+    public boolean createNewRentalAgreement(RentalAgreement rentalAgreement, Car car) {
+        return false;
 
     }
 
-
 }
+
