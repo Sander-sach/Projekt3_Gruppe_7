@@ -28,7 +28,7 @@ public class RentalAgreementController {
     }
 
     // Viser oversigt over alle lejeaftaler
-    @GetMapping("/rental")
+    @GetMapping("/rental-overview")
     public String rental(Model model, HttpSession session) {
         //check EmployeeRole matcher side
         Employee employee = (Employee) session.getAttribute("employee");

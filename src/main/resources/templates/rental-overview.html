@@ -13,9 +13,10 @@
         <nav>
             <a th:href="@{/data-registration}">Dashboard</a>
             <a th:href="@{/car-registration-overview}">Bil Registrering</a>
-            <a th:href="@{/rental}" class="active">Ny Lejeaftale</a>
+            <a th:href="@{/rental-overview}" class="active">Ny Lejeaftale</a>
         </nav>
         <div class="sidebar-footer">
+            <span th:text="${session.employee.name}">Navn</span><br>
             <a th:href="@{/logout}">Log ud</a>
         </div>
     </div>
@@ -25,17 +26,20 @@
         <div class="topbar">
             <span class="page-title">Lejeaftaler — Oversigt</span>
             <span class="topbar-user">Dataregistrering</span>
+            <span class="topbar-user">
+                Logget ind som: <strong th:text="${session.employee.name}">Navn</strong>
+            </span>
         </div>
 
         <div class="page-content">
 
             <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
-                <a th:href="@{/rental/new}" class="btn btn-primary" style="width: auto; padding: 0.6rem 1.5rem;">
+                <a th:href="@{/rental-agreement-new}" class="btn btn-primary" style="width: auto; padding: 0.6rem 1.5rem;">
                     + Ny Lejeaftale
                 </a>
             </div>
 
-            <div class="alert-success" th:if="${agreements.isEmpty()}">
+            <div class="alert-danger" th:if="${agreements.isEmpty()}">
                 Ingen lejeaftaler fundet.
             </div>
 
