@@ -80,7 +80,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     // Gem en ny bil i databasen
     public void save(Car car) {
-        String sql = "INSERT INTO car (stelnumber, color, maker, model, year, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO car (stel_number, colour, maker, model, year, status) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -98,7 +98,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     // Opdater en eksisterende bil
     public void update(Car car) {
-        String sql = "UPDATE car SET stelnumber = ?, color = ?, maker = ?, model = ?, year = ?, status = ? WHERE car_id = ?";
+        String sql = "UPDATE car SET stel_number = ?, colour = ?, maker = ?, model = ?, year = ?, status = ? WHERE car_id = ?";
 
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -132,8 +132,8 @@ public class CarRepositoryImpl implements CarRepository {
     private Car mapRow(ResultSet rs) throws SQLException {
         Car car = new Car();
         car.setCarId(rs.getLong("car_id"));
-        car.setStelnumber(rs.getString("stelnumber"));
-        car.setColor(rs.getString("color"));
+        car.setStelnumber(rs.getString("stel_number"));
+        car.setColor(rs.getString("colour"));
         car.setMaker(rs.getString("maker"));
         car.setModel(rs.getString("model"));
         car.setYear(rs.getInt("year"));
