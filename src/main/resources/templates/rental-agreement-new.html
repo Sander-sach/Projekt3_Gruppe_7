@@ -14,7 +14,7 @@
         <nav>
             <a th:href="@{/}">Dashboard</a>
             <a th:href="@{/car-registration-overview}">Bil Registrering</a>
-            <a th:href="@{/rental/new}" class="active">Ny Lejeaftale</a>
+            <a th:href="@{/rental-overview}" class="active">Ny Lejeaftale</a>
         </nav>
         <div class="sidebar-footer">
             <a th:href="@{/logout}">Log ud</a>
@@ -38,12 +38,12 @@
                 <span th:text="${successMessage}"></span>
             </div>
 
-            <form th:action="@{/rental/R-A-new}" th:object="${rentalAgreement}" method="post"
+            <form th:action="@{/rental/R-A-new}" method="post"
                   style="background:white; border-radius:12px; padding:2rem; max-width:600px;">
 
                 <div class="form-group">
                     <label>Vælg bil</label>
-                    <select th:field="*{carId}" required>
+                    <select name="carId" required>
                         <option value="">— Vælg bil —</option>
                         <option th:each="car : ${availableCars}"
                                 th:value="${car.carId}"
@@ -54,17 +54,17 @@
 
                 <div class="form-group">
                     <label>Startdato</label>
-                    <input type="date" th:field="*{startDate}" required/>
+                    <input type="date" name="startDate" required/>
                 </div>
 
                 <div class="form-group">
                     <label>Slutdato</label>
-                    <input type="date" th:field="*{endDate}" required/>
+                    <input type="date" name="endDate" required/>
                 </div>
 
                 <div class="form-group">
                     <label>Abonnementstype</label>
-                    <select th:field="*{subscriptionType}" required>
+                    <select name="subscriptionType" required>
                         <option value="">— Vælg type —</option>
                         <option value="LIMITED">Limited (5 måneder)</option>
                         <option value="UNLIMITED">Unlimited (3–36 måneder)</option>
@@ -73,15 +73,29 @@
 
                 <div class="form-group">
                     <label>Afhentningssted</label>
-                    <select th:field="*{location}" required>
+                    <select name="location" required>
                         <option value="">— Vælg sted —</option>
                         <option value="HQ">Bilabonnement</option>
                         <option value="DS_DEALER">DS Salon</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Kundenavn</label>
+                    <input type="text" name="name" required/>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefon</label>
+                    <input type="text" name="phone" required/>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required/>
+                </div>
 
                 <div style="display:flex; gap:1rem; margin-top:1.5rem;">
-                    <a th:href="@{/}" class="btn btn-secondary">Annuller</a>
+                    <a th:href="@{/data-registration}" class="btn btn-secondary">Annuller</a>
                     <button type="submit" class="btn btn-primary" style="width:auto;">Gem lejeaftale</button>
                 </div>
 

@@ -24,9 +24,8 @@ public class RentalAgreement {
         this.subscriptionType = subscriptionType;
     }
     // Contructer uden rental id
-    public RentalAgreement(Long carId, Long costumerId, Long damageReportId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType) {
+    public RentalAgreement(Long carId, LocalDate startDate, LocalDate endDate, Location location, SubscriptionType subscriptionType) {
         this.carId = carId;
-        this.costumerId = costumerId;
         this.damageReportId = damageReportId;
         this.startDate = startDate;
         this.endDate = endDate;
