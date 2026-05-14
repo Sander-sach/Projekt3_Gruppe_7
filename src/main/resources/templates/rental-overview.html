@@ -2,22 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Bilabonnement — Ny Lejeaftale</title>
+    <title>Bilabonnement — Lejeaftaler</title>
     <link rel="stylesheet" th:href="@{/style.css}"/>
 </head>
 <body>
-
 <div class="app-layout">
 
     <div class="sidebar">
-        <div class="sidebar-brand">BIL<span>ABONNEMENT</span></div>
+        <div class="sidebar-brand">Bil<span>abonnement</span></div>
         <nav>
             <a th:href="@{/data-registration}">Dashboard</a>
             <a th:href="@{/car-registration-overview}">Bil Registrering</a>
-            <a th:href="@{/rental/new}" class="active">Ny Lejeaftale</a>
+            <a th:href="@{/rental}" class="active">Ny Lejeaftale</a>
         </nav>
         <div class="sidebar-footer">
-            <span th:text="${session.employee.name}">Navn</span><br>
             <a th:href="@{/logout}">Log ud</a>
         </div>
     </div>
@@ -25,69 +23,49 @@
     <div class="main-content">
 
         <div class="topbar">
-            <span class="page-title">Ny Lejeaftale</span>
-            <span class="topbar-user">
-                Logget ind som: <strong th:text="${session.employee.name}">Navn</strong>
-            </span>
+            <span class="page-title">Lejeaftaler — Oversigt</span>
+            <span class="topbar-user">Dataregistrering</span>
         </div>
 
         <div class="page-content">
 
-            <!-- Fejlbesked -->
-            <div th:if="${error}" class="alert-danger" th:text="${error}"></div>
-
-            <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 600px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">
-
-                <form th:action="@{/rental/R-A-new}" th:object="${rentalAgreement}" method="post">
-
-                    <div class="form-group">
-                        <label>Bil</label>
-                        <select th:field="*{carId}">
-                            <option value="">-- Vælg bil --</option>
-                            <option th:each="car : ${availableCars}"
-                                    th:value="${car.carId}"
-                                    th:text="${car.maker + ' ' + car.model + ' (' + car.stelnumber + ')'}">
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Startdato</label>
-                        <input type="date" th:field="*{startDate}" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Slutdato</label>
-                        <input type="date" th:field="*{endDate}" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Abonnementstype</label>
-                        <select th:field="*{subscriptionType}">
-                            <option value="UNLIMITED">Unlimited</option>
-                            <option value="LIMITED">Limited</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Leveringssted</label>
-                        <select th:field="*{location}">
-                            <option value="HQ">HQ</option>
-                            <option value="DS_DEALER">DS Dealer</option>
-                        </select>
-                    </div>
-
-                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                        <button type="submit" class="btn btn-primary" style="width: auto;">Gem lejeaftale</button>
-                        <a th:href="@{/data-registration}" class="btn btn-secondary">Annuller</a>
-                    </div>
-
-                </form>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+                <a th:href="@{/rental/new}" class="btn btn-primary" style="width: auto; padding: 0.6rem 1.5rem;">
+                    + Ny Lejeaftale
+                </a>
             </div>
+
+            <div class="alert-success" th:if="${agreements.isEmpty()}">
+                Ingen lejeaftaler fundet.
+            </div>
+
+            <table th:if="${!agreements.isEmpty()}" style="width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden;">
+                <thead style="background: var(--navy); color: white;">
+                <tr>
+                    <th style="padding: 1rem; text-align:left;">Aftale ID</th>
+                    <th style="padding: 1rem; text-align:left;">Bil ID</th>
+                    <th style="padding: 1rem; text-align:left;">Kunde ID</th>
+                    <th style="padding: 1rem; text-align:left;">Startdato</th>
+                    <th style="padding: 1rem; text-align:left;">Slutdato</th>
+                    <th style="padding: 1rem; text-align:left;">Abonnement</th>
+                    <th style="padding: 1rem; text-align:left;">Afhentningssted</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="agreement : ${agreements}" style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 1rem;" th:text="${agreement.rentalagreementId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.carId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.costumerId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.startDate}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.endDate}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.subscriptionType}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.location}"></td>
+                </tr>
+                </tbody>
+            </table>
 
         </div>
     </div>
 </div>
-
 </body>
 </html>

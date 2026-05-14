@@ -1,6 +1,7 @@
 package com.example.projekt3_gruppe_7.controller;
 
 import com.example.projekt3_gruppe_7.model.*;
+import com.example.projekt3_gruppe_7.service.CustomerService;
 import com.example.projekt3_gruppe_7.service.RentalAgreementService;
 import com.example.projekt3_gruppe_7.repository.CarRepository;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -16,11 +18,13 @@ public class RentalAgreementController {
 
     private final RentalAgreementService rentalAgreementService;
     private final CarRepository carRepository;
+    private final CustomerService customerService;
 
     @Autowired
-    public RentalAgreementController(RentalAgreementService rentalAgreementService, CarRepository carRepository) {
+    public RentalAgreementController(RentalAgreementService rentalAgreementService, CarRepository carRepository, CustomerService customerService) {
         this.rentalAgreementService = rentalAgreementService;
         this.carRepository = carRepository;
+        this.customerService = customerService;
     }
 
     // Viser oversigt over alle lejeaftaler
@@ -42,7 +46,7 @@ public class RentalAgreementController {
 
     // Viser formular til oprettelse af ny lejeaftale
     // Henter alle tilgængelige biler så brugeren kan vælge
-    @GetMapping("/rental/new")
+    @GetMapping("/rental-agreement-new")
     public String newRentalAgreement(Model model, HttpSession session){
         //check EmployeeRole matcher side
         Employee employee = (Employee) session.getAttribute("employee");
@@ -54,28 +58,25 @@ public class RentalAgreementController {
         }
 
         List<Car> availableCars = carRepository.findAll().stream()
+                // lambda funktion for Car objekt svarer til check AVAILABLE status = true
                 .filter(car -> car.getStatus() == CarStatus.AVAILABLE)
                 .toList();
         model.addAttribute("availableCars", availableCars);
-        model.addAttribute("rentalAgreement", new RentalAgreement());
         return "rental-agreement-new";
 
     }
 
     // Modtager og gemmer en ny lejeaftale fra formularen
-    @PostMapping("/rental/R-A-new")
-    public String saveAgreement(@ModelAttribute RentalAgreement agreement, Model model){
-        boolean success = rentalAgreementService.create(agreement);
+    @PostMapping("/rental-agreement-save")
+    public String saveAgreement(@RequestParam Long carId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate,@RequestParam Location location,
+                                @RequestParam SubscriptionType subscriptionType,@RequestParam String name,@RequestParam String phone,@RequestParam String email,  Model model){
 
-        if (!success) {
-            List<Car> availableCars = carRepository.findAll().stream()
-                    .filter(car -> car.getStatus() == CarStatus.AVAILABLE)
-                    .toList();
-            model.addAttribute("cars", availableCars);
-            model.addAttribute("agreement", agreement);
-            model.addAttribute("error", "Kunne ikke oprette lejeaftale. Tjek venligst alle felter.");
-            return "rental-form";
+        RentalAgreement rentalAgreement = new RentalAgreement(carId,startDate,endDate,location,subscriptionType);
+        Customer customer = new Customer(name,phone,email);
+        if (!rentalAgreementService.create(rentalAgreement) || !customerService.create(customer)) {
+            model.addAttribute("errorForm", true);
+            return "rental-agreement-new";
         }
-        return "redirect:/rental";
+        return "redirect:/rental-overview";
     }
 }
