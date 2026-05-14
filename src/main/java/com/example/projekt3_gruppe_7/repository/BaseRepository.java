@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface BaseRepository<T> {
 
-    T findById(Long id) throws SQLException;
+    T findById(Long id);
 
     List<T> findAll() throws SQLException;
 
-    void save(T entity) throws  SQLException;
+    void save(T entity);
 
-    void update(T entity) throws SQLException;
+    void update(T entity);
 
     void delete(Long id) throws SQLException;
 }

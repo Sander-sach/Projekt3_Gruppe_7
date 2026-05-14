@@ -11,13 +11,13 @@ import java.util.List;
 
 
 public interface CarRegistrationRepository extends BaseRepository<CarRegistration> {
-    CarRegistration findById(Long id) throws SQLException;
+    CarRegistration findById(Long id);
 
     List<CarRegistration> findAll() throws SQLException;
 
-    void save(CarRegistration entity) throws  SQLException;
+    void save(CarRegistration entity);
 
-    void update(CarRegistration entity) throws SQLException;
+    void update(CarRegistration entity);
 
     void delete(Long id) throws SQLException;
 
