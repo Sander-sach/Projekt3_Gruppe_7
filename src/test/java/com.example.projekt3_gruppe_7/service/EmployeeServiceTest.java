@@ -1,5 +1,6 @@
 package com.example.projekt3_gruppe_7.service;
 
+import com.example.projekt3_gruppe_7.model.Employee;
 import com.example.projekt3_gruppe_7.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +28,7 @@ public class EmployeeServiceTest {
     void testValidPassword_returnTrue(){
         //Arrange
         String password = "password1";
+        String username = "username";
 
         //Act
         boolean result = employeeService.validatePasswordCharacters(password);
