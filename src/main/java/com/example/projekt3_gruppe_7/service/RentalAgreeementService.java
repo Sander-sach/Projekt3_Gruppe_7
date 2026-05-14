@@ -25,7 +25,6 @@ public class RentalAgreeementService {
 
     public RentalAgreement findRentalAgreementById(Long rentalAgreementId) {
         return rentalagreementRepository.findById(rentalAgreementId);
-    return false;
     }
 
     public boolean createNewRentalAgreement(RentalAgreement rentalAgreement, Car car) {

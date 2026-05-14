@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,9 @@ public class CarRegistrationController {
     @GetMapping("/car-registration-overview")
     public String registrationOverview(Model model) throws Exception {
         List<RentalAgreement> missingRegistrations = carRegistrationService.findAgreementsWithoutRegistration();
+        if (missingRegistrations == null) {
+            missingRegistrations = new ArrayList<>();
+        }
         model.addAttribute("missingRegistrations", missingRegistrations);
         return "car-registration-overview";
     }

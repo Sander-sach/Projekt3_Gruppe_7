@@ -62,7 +62,7 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
     public List<RentalAgreement> findRentalAgreementMissingRegistration() throws SQLException {
         List<RentalAgreement> list = new ArrayList<>();
         String sql = "SELECT ra.* FROM rental_agreement ra " +
-                "LEFT JOIN car_registration cr ON ra.agreement_id = cr.agreement_id" +
+                "LEFT JOIN car_registration cr ON ra.agreement_id = cr.agreement_id " +
                 "WHERE cr.agreement_id IS NULL";
 
         try (Connection connection = dataSource.getConnection();
