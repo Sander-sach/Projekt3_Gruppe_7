@@ -39,7 +39,7 @@ public class CarRegistrationService {
     }
 
     // Returnerer alle lejeaftaler der mangler registrering mangler
-    public List<RentalAgreement> findAgreementsWithoutRegistration() throws Exception {
+    public List<RentalAgreement> findAgreementsWithoutRegistration() {
         List<RentalAgreement> list = new ArrayList<>();
         list = rentalAgreementRepository.findRentalAgreementMissingRegistration();
         return list;
