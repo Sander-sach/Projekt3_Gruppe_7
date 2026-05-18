@@ -2,16 +2,17 @@ package com.example.projekt3_gruppe_7.service;
 
 import com.example.projekt3_gruppe_7.model.Customer;
 import com.example.projekt3_gruppe_7.repository.BaseRepository;
+import com.example.projekt3_gruppe_7.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
 
-    private final BaseRepository<Customer> customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerService(BaseRepository<Customer> customerRepository) {
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
@@ -37,6 +38,9 @@ public class CustomerService {
             return false;
         }
         return true;
+    }
+    public Customer findCustomerByPhone(String phone){
+       return customerRepository.findByPhone(phone);
     }
 
 }

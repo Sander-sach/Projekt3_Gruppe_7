@@ -61,7 +61,9 @@ public class CarRepositoryImpl implements CarRepository {
 
     // Hent bil via lejeaftale-ID (bruges til at opdatere bilstatus)
     public Car findByRentalAgreementId(Long rentalAgreementId) {
-        String sql = "SELECT * FROM car WHERE rental_agreement_id = ?";
+        String sql = "SELECT car.* FROM car\n"+
+                " JOIN rental_agreement ON car.car_id = rental_agreement.car_id\n" +
+                "WHERE rental_agreement.agreement_id = ?";
 
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

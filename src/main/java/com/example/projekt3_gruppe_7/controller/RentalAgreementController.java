@@ -70,13 +70,23 @@ public class RentalAgreementController {
     @PostMapping("/rental-agreement-save")
     public String saveAgreement(@RequestParam Long carId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate,@RequestParam Location location,
                                 @RequestParam SubscriptionType subscriptionType,@RequestParam double monthlyPrice, @RequestParam String name,@RequestParam String phone,@RequestParam String email,  Model model){
-
-        RentalAgreement rentalAgreement = new RentalAgreement(carId,startDate,endDate,location,subscriptionType,monthlyPrice);
         Customer customer = new Customer(name,phone,email);
-        if (!rentalAgreementService.create(rentalAgreement) || !customerService.create(customer)) {
-            model.addAttribute("errorForm", true);
+        RentalAgreement rentalAgreement = new RentalAgreement(carId,startDate,endDate,location,subscriptionType,monthlyPrice);
+
+        boolean customerCreated = customerService.create(customer);
+        if (!customerCreated) {
+            model.addAttribute("errorCustomerForm", true);
             return "rental-agreement-new";
         }
+        customer = customerService.findCustomerByPhone(customer.getPhone());
+        rentalAgreement.setCustomerId(customer.getCustomerId());
+        boolean agreementCreated = rentalAgreementService.create(rentalAgreement);
+
+        if (!agreementCreated) {
+            model.addAttribute("errorAgreementForm", true);
+            return "rental-agreement-new";
+        }
+        model.addAttribute("successMessage", true);
         return "redirect:/rental-overview";
     }
 }

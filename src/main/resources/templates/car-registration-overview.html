@@ -55,15 +55,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="agreement : ${!missingRegistrations.isEmpty()}" style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 1rem;" th:text="${agreement.agreementId}"></td>
+                <tr th:each="agreement : ${missingRegistrations}" style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 1rem;" th:text="${agreement.rentalAgreementId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.carId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.customerId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.startDate}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.endDate}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.location}"></td>
                     <td style="padding: 1rem;">
-                        <a th:href="@{/car-registration-new/{id}(id=${agreement.agreementId})}"
+                        <a th:href="@{/car-registration-new/{id}(id=${agreement.rentalAgreementId})}"
                            class="btn btn-primary"
                            style="width:auto; padding: 0.5rem 1rem;">
                             Registrér
@@ -72,7 +72,6 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>

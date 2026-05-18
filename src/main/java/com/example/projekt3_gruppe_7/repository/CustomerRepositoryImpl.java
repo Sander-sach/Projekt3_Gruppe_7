@@ -4,6 +4,7 @@ import com.example.projekt3_gruppe_7.model.Car;
 import com.example.projekt3_gruppe_7.model.CarStatus;
 import com.example.projekt3_gruppe_7.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class CustomerRepositoryImpl implements CustomerRepository{
 
     @Autowired
@@ -57,9 +59,9 @@ public class CustomerRepositoryImpl implements CustomerRepository{
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, phone);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapRow(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -67,12 +69,12 @@ public class CustomerRepositoryImpl implements CustomerRepository{
         }
         return null;
     }
-    private Customer mapRow(ResultSet rs) throws SQLException {
+    private Customer mapRow(ResultSet resultSet) throws SQLException {
         Customer customer = new Customer();
-        customer.setCustomerId(rs.getLong("customer_id"));
-        customer.setName(rs.getString("name"));
-        customer.setPhone(rs.getString("color"));
-        customer.setEmail(rs.getString("maker"));
+        customer.setCustomerId(resultSet.getLong("customer_id"));
+        customer.setName(resultSet.getString("name"));
+        customer.setPhone(resultSet.getString("phone"));
+        customer.setEmail(resultSet.getString("email"));
 
         return customer;
     }

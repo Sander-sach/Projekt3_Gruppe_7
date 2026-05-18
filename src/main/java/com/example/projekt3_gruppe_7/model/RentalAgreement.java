@@ -49,7 +49,7 @@ public class RentalAgreement {
     public RentalAgreement() {
     }
 
-    public Long getRentalagreementId() {
+    public Long getRentalAgreementId() {
         return rentalagreementId;
     }
 
@@ -101,7 +101,7 @@ public class RentalAgreement {
         this.carId = carId;
     }
 
-    private void setCustomerId(Long costumerId) {
+    public void setCustomerId(Long costumerId) {
         this.costumerId = costumerId;
     }
 

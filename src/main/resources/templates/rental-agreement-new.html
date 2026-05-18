@@ -34,15 +34,19 @@
 
         <div class="page-content">
 
-            <div class="alert-danger" th:if="${error}">
-                <span th:text="${error}"></span>
+            <div class="alert-danger" th:if="${errorCustomerForm}">
+                Fejl i kunde oprettelse
+            </div>
+
+            <div class="alert-danger" th:if="${errorAgreementForm}">
+                Fejl i aftale oprettelse
             </div>
 
             <div class="alert-success" th:if="${successMessage}">
-                <span th:text="${successMessage}"></span>
+                Lejeaftale oprettet!
             </div>
 
-            <form th:action="@{/rental/R-A-new}" method="post"
+            <form th:action="@{/rental-agreement-save}" method="post"
                   style="background:white; border-radius:12px; padding:2rem; max-width:600px;">
 
                 <div class="form-group">
@@ -102,7 +106,7 @@
                 </div>
 
                 <div style="display:flex; gap:1rem; margin-top:1.5rem;">
-                    <a th:href="@{/data-registration}" class="btn btn-secondary">Annuller</a>
+                    <a th:href="@{/rental-overview}" class="btn btn-secondary">Annuller</a>
                     <button type="submit" class="btn btn-primary" style="width:auto;">Gem lejeaftale</button>
                 </div>
 

@@ -42,16 +42,16 @@ public class CarRegistrationController {
 
         List<RentalAgreement> missingRegistrations = carRegistrationService.findAgreementsWithoutRegistration();
         if (missingRegistrations == null) {
+            missingRegistrations = new ArrayList<>();
             model.addAttribute("missingRegistrations", missingRegistrations);
         }
-        missingRegistrations = new ArrayList<>();
         model.addAttribute("missingRegistrations", missingRegistrations);
         return "car-registration-overview";
     }
 
     // Henter bil og lejeaftale og viser tjeklisten
     @GetMapping("/car-registration-new/{rentalAgreementId}")
-    public String newCarRegistration(@PathVariable Long rentalAgreementId, Model model,HttpSession session)  {
+    public String newCarRegistration(@PathVariable Long rentalAgreementId,@RequestParam(required = false) String error, Model model,HttpSession session)  {
         //check EmployeeRole matcher side
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null){
@@ -66,14 +66,19 @@ public class CarRegistrationController {
         model.addAttribute("rentalAgreement", rentalAgreement);
         model.addAttribute("car", car);
         model.addAttribute("carRegistration", new CarRegistration());
+        if (error != null) {
+            model.addAttribute("errorRegistrationForm", true);
+        }
 
         return "car-registration-new";
     }
 
     // Gemmer den udfyldte tjekliste og opdaterer bilens status
-    @PostMapping("car-registration-new")
-    public String saveCarRegistration(@ModelAttribute CarRegistration carRegistration)  {
-        carRegistrationService.complete(carRegistration);
+    @PostMapping("/car-registration-new")
+    public String saveCarRegistration(@ModelAttribute CarRegistration carRegistration, Model model)  {
+        if(!carRegistrationService.complete(carRegistration)){
+            return "redirect:/car-registration-new/" + carRegistration.getRentalAgreementId() + "?error=true";
+        }
         return "redirect:/car-registration-overview";
     }
 }

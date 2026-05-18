@@ -24,6 +24,7 @@ public class CarRegistration {
         this.leasingCode = leasingCode;
         this.IRKCode = IRKCode;
         this.plateNumber = plateNumber;
+        this.rentalAgreementId = rentalAgreementId;
     }
 
     // Getters and Setters

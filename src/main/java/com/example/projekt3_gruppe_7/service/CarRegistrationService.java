@@ -16,17 +16,18 @@ import java.util.List;
 public class CarRegistrationService {
 
     private final CarRepository carRepository;
-    private final BaseRepository<CarRegistration> carRegistrationRepository;
+    private final CarRegistrationRepository carRegistrationRepository;
     private final RentalAgreementRepository rentalAgreementRepository;
 
     @Autowired
     public CarRegistrationService(CarRepository carRepository,
-                                  BaseRepository<CarRegistration> carRegistrationRepository,
+                                  CarRegistrationRepository carRegistrationRepository,
                                   RentalAgreementRepository rentalAgreementRepository) {
         this.carRepository = carRepository;
         this.carRegistrationRepository = carRegistrationRepository;
         this.rentalAgreementRepository = rentalAgreementRepository;
     }
+
 
     // Gemmer registreringen og opdaterer bilens status
     public boolean complete(CarRegistration form) {

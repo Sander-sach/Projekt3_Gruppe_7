@@ -1,4 +1,5 @@
 package com.example.projekt3_gruppe_7.repository;
+import com.example.projekt3_gruppe_7.model.CarRegistration;
 import com.example.projekt3_gruppe_7.model.EmployeeRole;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +21,6 @@ public class EmployeeRepository {
 
 
     public Employee findByUsername(String username){
-        Employee employee = null;
         String sql = "SELECT * FROM employee WHERE username = ?";
 
         try (Connection connection = dataSource.getConnection();
@@ -30,12 +30,7 @@ public class EmployeeRepository {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Long employeeId = (resultSet.getLong("employee_id"));
-                    String name = (resultSet.getString("name"));
-                    EmployeeRole role = EmployeeRole.valueOf(resultSet.getString("role"));
-                    String password = (resultSet.getString("password"));
-                    employee = new Employee(employeeId, name, role, username, password);
-                    return employee;
+                    return mapRow(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -45,7 +40,7 @@ public class EmployeeRepository {
     }
 
     public void save(Employee employee) {
-        String sql = "INSERT INTO employee (name, username, password, role) VALUES (?, ?, ?,?)";
+        String sql = "INSERT INTO employee (name, username, password, role) VALUES (?,?,?,?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, employee.getName());
@@ -77,6 +72,14 @@ public class EmployeeRepository {
 
 
         return false;
+    }
+    private Employee mapRow(ResultSet resultSet) throws SQLException {
+        Long employeeId = resultSet.getLong("employee_id");
+        String name = resultSet.getString("name");
+        EmployeeRole role = EmployeeRole.valueOf(resultSet.getString("role"));
+        String username = resultSet.getString("username");
+        String password = resultSet.getString("password");
+        return new Employee(employeeId, name, role, username, password);
     }
 }
 

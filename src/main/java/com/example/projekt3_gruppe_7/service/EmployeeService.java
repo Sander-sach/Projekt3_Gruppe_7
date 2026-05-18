@@ -33,19 +33,19 @@ public class EmployeeService {
         return true;
     }
 
-    public boolean validatePasswordCharacters(String password){
+    private boolean validatePasswordCharacters(String password){
         if(!password.matches(".*[0-9].*") || password.length() < 8){
             return false;
         }
         return true;
     }
 
-    public String hashPassword(String plainPassword){
+    private String hashPassword(String plainPassword){
 
         return passwordEncoder.encode(plainPassword);
     }
 
-    public boolean verifyPassword(String plainPassword, String hashedPassword){
+    private boolean verifyPassword(String plainPassword, String hashedPassword){
 
        return passwordEncoder.matches(plainPassword,hashedPassword);
     }

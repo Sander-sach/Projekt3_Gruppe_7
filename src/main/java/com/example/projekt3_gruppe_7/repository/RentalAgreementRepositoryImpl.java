@@ -101,7 +101,7 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
             statement.setDouble (6, entity.getMonthlyPrice());
             statement.setString(7, entity.getLocation().name());
             statement.setString(8, entity.getSubscriptionType().name());
-            statement.setLong(9, entity.getRentalagreementId());
+            statement.setLong(9, entity.getRentalAgreementId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -144,6 +144,7 @@ public class RentalAgreementRepositoryImpl implements RentalAgreementRepository 
         Long carId = resultSet.getLong("car_id");
         Long costumerId = resultSet.getLong("customer_id");
         Long damageReportId = resultSet.getLong("report_id");
+        // sikre at damageReportId kan være null
         if (resultSet.wasNull()) {
             damageReportId = null;
         }

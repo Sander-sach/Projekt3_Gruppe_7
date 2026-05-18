@@ -52,14 +52,15 @@
                     <th style="padding: 1rem; text-align:left;">Startdato</th>
                     <th style="padding: 1rem; text-align:left;">Slutdato</th>
                     <th style="padding: 1rem; text-align:left;">Abonnement</th>
+                    <th style="padding: 1rem; text-align:left;">Abonnements Pris</th>
                     <th style="padding: 1rem; text-align:left;">Afhentningssted</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="agreement : ${agreements}" style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 1rem;" th:text="${agreement.rentalagreementId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.rentalAgreementId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.carId}"></td>
-                    <td style="padding: 1rem;" th:text="${agreement.costumerId}"></td>
+                    <td style="padding: 1rem;" th:text="${agreement.CustomerId}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.startDate}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.endDate}"></td>
                     <td style="padding: 1rem;" th:text="${agreement.subscriptionType}"></td>

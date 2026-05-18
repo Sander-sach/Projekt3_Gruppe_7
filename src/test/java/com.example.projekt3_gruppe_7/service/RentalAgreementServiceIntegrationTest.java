@@ -6,11 +6,16 @@ import com.example.projekt3_gruppe_7.model.Location;
 import com.example.projekt3_gruppe_7.model.RentalAgreement;
 import com.example.projekt3_gruppe_7.model.SubscriptionType;
 import com.example.projekt3_gruppe_7.repository.CarRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,33 +28,19 @@ public class RentalAgreementServiceIntegrationTest {
     RentalAgreementService rentalAgreementService;
 
     @Autowired
-    CarRepository carRepository;
+    DataSource dataSource;
 
     // Happy flow
     @Test
-    void testCreateRentalAgreement_availableCar_returnsTrue() throws Exception {
+    void testCreateRentalAgreement_returnsTrue() {
         // Arrange - opret en ledig bil i databasen
-        Car car = new Car();
-        car.setStelnumber("TEST123456789");
-        car.setMaker("Toyota");
-        car.setModel("Yaris");
-        car.setColor("Rød");
-        car.setYear(2023);
-        car.setStatus(CarStatus.AVAILABLE);
-        carRepository.save(car);
-
-        Car savedCar = carRepository.findAll().stream()
-                .filter(c -> c.getStelnumber().equals("TEST123456789"))
-                .findFirst()
-                .orElseThrow();
-
         RentalAgreement agreement = new RentalAgreement(
-                savedCar.getCarId(),
-                1L,
+                5L, 3L,
                 LocalDate.now(),
                 LocalDate.now().plusMonths(5),
                 Location.HQ,
-                SubscriptionType.LIMITED );
+                SubscriptionType.LIMITED,
+                3500.00);
 
         // Act
         boolean result = rentalAgreementService.create(agreement);
@@ -60,34 +51,28 @@ public class RentalAgreementServiceIntegrationTest {
 
     // Exception flow
     @Test
-    void testCreateRentalAgreement_rentedCar_returnsFalse() throws Exception {
+    void testCreateRentalAgreement_rentedCar_returnsFalse() {
         // Arrange - opret en bil der allerede er udlejet
-        Car car = new Car();
-        car.setStelnumber("RENTED987654321");
-        car.setMaker("Ford");
-        car.setModel("Focus");
-        car.setColor("Blå");
-        car.setYear(2022);
-        car.setStatus(CarStatus.RENTED);
-        carRepository.save(car);
-
-        Car savedCar = carRepository.findAll().stream()
-                .filter(c -> c.getStelnumber().equals("RENTED987654321"))
-                .findFirst()
-                .orElseThrow();
-
         RentalAgreement agreement = new RentalAgreement(
-                savedCar.getCarId(),
-                1L,
+                1L, 1L,
                 LocalDate.now(),
                 LocalDate.now().plusMonths(5),
                 Location.HQ,
-                SubscriptionType.LIMITED );
+                SubscriptionType.LIMITED,
+                3500.00 );
 
         // Act
         boolean result = rentalAgreementService.create(agreement);
 
         // Assert
         assertFalse(result);
+    }
+    @AfterEach
+    void cleanUp() throws SQLException {
+        try (Connection con = dataSource.getConnection();
+             Statement stmt = con.createStatement()) {
+            stmt.execute("DELETE FROM rental_agreement WHERE car_id = 5 AND customer_id = 3");
+            stmt.execute("UPDATE car SET status = 'AVAILABLE' WHERE car_id = 5");
+        }
     }
 }

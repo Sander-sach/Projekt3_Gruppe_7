@@ -1,6 +1,9 @@
 package com.example.projekt3_gruppe_7.repository;
 
 import com.example.projekt3_gruppe_7.model.CarRegistration;
+import com.example.projekt3_gruppe_7.model.Location;
+import com.example.projekt3_gruppe_7.model.RentalAgreement;
+import com.example.projekt3_gruppe_7.model.SubscriptionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +33,10 @@ public class CarRegistrationRepositoryImpl implements CarRegistrationRepository 
         try(Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setLong(1, id);
-            ResultSet rs = ps.executeQuery();
+            ResultSet resultSet = ps.executeQuery();
 
-            if (rs.next()) {
-                CarRegistration cr = new CarRegistration();
-                cr.setCarRegistrationId(rs.getLong("car_registration_id"));
-                cr.setLeasingCode(rs.getString("leasing_code"));
-                cr.setIRKCode(rs.getString("irk_code"));
-                cr.setPlateNumber(rs.getString("plate_number"));
-                cr.setRentalAgreementId(rs.getLong("rental_agreement_id"));
-                return cr;
+            if (resultSet.next()) {
+                return mapRow(resultSet);
             }
         }catch (SQLException e){
 
@@ -54,24 +52,18 @@ public class CarRegistrationRepositoryImpl implements CarRegistrationRepository 
         Connection con = dataSource.getConnection();
         String sql = "SELECT * FROM car_registration";
         PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
+        ResultSet resultSet = ps.executeQuery();
 
         List<CarRegistration> list = new ArrayList<>();
-        while (rs.next()) {
-            CarRegistration cr = new CarRegistration();
-            cr.setCarRegistrationId(rs.getLong("car_registration_id"));
-            cr.setLeasingCode(rs.getString("leasing_code"));
-            cr.setIRKCode(rs.getString("irk_code"));
-            cr.setPlateNumber(rs.getString("plate_number"));
-            cr.setRentalAgreementId(rs.getLong("rental_agreement_id"));
-            list.add(cr);
+        while (resultSet.next()) {
+            list.add(mapRow(resultSet));
         }
         return list;
     }
 
     // Gem en ny registrering i databasen
     public void save(CarRegistration cr) {
-        String sql = "INSERT INTO car_registration (leasing_code, irk_code, plate_number, rental_agreement_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO car_registration (leasing_code, irk_code, plate_number, agreement_id) VALUES (?, ?, ?, ?)";
         try(Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);){
             ps.setString(1, cr.getLeasingCode());
@@ -86,7 +78,7 @@ public class CarRegistrationRepositoryImpl implements CarRegistrationRepository 
 
     // Opdater en eksisterende registrering
     public void update(CarRegistration cr) {
-        String sql = "UPDATE car_registration SET leasing_code = ?, irk_code = ?, plate_number = ?, rental_agreement_id = ? WHERE car_registration_id = ?";
+        String sql = "UPDATE car_registration SET leasing_code = ?, irk_code = ?, plate_number = ?, agreement_id = ? WHERE car_registration_id = ?";
         try(Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql)){
 
@@ -107,5 +99,15 @@ public class CarRegistrationRepositoryImpl implements CarRegistrationRepository 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setLong(1, id);
         ps.executeUpdate();
+    }
+    private CarRegistration mapRow(ResultSet resultSet) throws SQLException {
+        Long carRegistrationId = resultSet.getLong("car_registration_id");
+        String leasingCode =resultSet.getString("leasing_code");
+        String irkCode = resultSet.getString("irk_code");
+        String plateNumber = resultSet.getString("plate_number");
+        Long rentalAgreementId = resultSet.getLong("agreement_id");
+
+        CarRegistration carRegistration = new CarRegistration(carRegistrationId,leasingCode,irkCode,plateNumber,rentalAgreementId);
+        return carRegistration;
     }
 }
