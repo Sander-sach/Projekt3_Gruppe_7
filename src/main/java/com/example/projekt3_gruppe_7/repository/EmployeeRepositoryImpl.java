@@ -83,13 +83,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
    public Employee findById(Long id){
-        Employee employee = null;
-        return employee;
+        return null;
    }
 
     public List<Employee> findAll(){
-        List<Employee> list = null;
-        return list;
+        return null;
     }
 
     public void update(Employee entity){

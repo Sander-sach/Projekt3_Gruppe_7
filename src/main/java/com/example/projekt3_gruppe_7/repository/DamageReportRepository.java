@@ -21,5 +21,5 @@ public interface DamageReportRepository extends BaseRepository<DamageReport>{
 
     void update(DamageReport entity);
 
-    void delete(Long id)throws SQLException;
+    void delete(Long id);
 }
