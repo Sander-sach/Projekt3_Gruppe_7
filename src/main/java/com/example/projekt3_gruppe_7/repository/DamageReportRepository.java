@@ -6,36 +6,20 @@ import org.springframework.stereotype.Repository;
 import com.example.projekt3_gruppe_7.model.DamageReport;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class DamageReportRepository implements BaseRepository<DamageReport>{
 
-    @Autowired
-    private DataSource dataSource;
+public interface DamageReportRepository extends BaseRepository<DamageReport>{
 
-    public DamageReport findById(Long id){
-        DamageReport damageReport  =null;
+    DamageReport findById(Long id);
 
-        return damageReport;
-    }
+    List<DamageReport> findAll();
 
-    public List<DamageReport> findAll(){
-        List<DamageReport> list = new ArrayList<>();
+    void save(DamageReport entity);
 
-        return list;
-    }
+    void update(DamageReport entity);
 
-    public void save(DamageReport entity){
-
-    }
-
-    public void update(DamageReport entity){
-
-    }
-
-    public void delete(Long id){
-
-    }
+    void delete(Long id)throws SQLException;
 }

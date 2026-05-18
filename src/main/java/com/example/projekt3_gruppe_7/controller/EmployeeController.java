@@ -70,4 +70,16 @@ public class EmployeeController {
 
         return "register-user";
     }
+
+    @GetMapping("/data-registration")
+    public String dataRegistrationUser(HttpSession session){
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null){
+            return "redirect:/login";
+        }
+        if(employee.getRole() != EmployeeRole.DATA_REGISTRATION && employee.getRole() != EmployeeRole.ADMIN){
+            return "redirect:/login";
+        }
+        return "data-registration";
+    }
 }
