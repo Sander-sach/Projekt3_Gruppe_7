@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilabonnement — Dataregistrering</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+
+<div class="app-layout">
+
+
+    <div class="sidebar">
+        <div class="sidebar-brand">Bil<span>abonnement</span></div>
+        <nav>
+            <a th:href="@{/data-registration}" class="active">Dashboard</a>
+            <a th:href="@{/car-registration-overview}">Bil Registrering</a>
+            <a th:href="@{/rental-overview}">Ny Lejeaftale</a>
+
+        </nav>
+        <div class="sidebar-footer">
+            <span th:text="${session.employee.name}">Navn</span><br>
+            <a th:href="@{/logout}">Log ud</a>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+
+
+        <div class="topbar">
+            <span class="page-title">Dataregistrering</span>
+            <span class="topbar-user">
+                Logget ind som: <strong th:text="${session.employee.name}">Navn</strong>
+            </span>
+        </div>
+
+
+        <div class="page-content">
+
+
+            <p class="text-muted" style="margin-bottom: 2rem;">
+                Som dataregistreringsmedarbejder kan du oprette nye lejeaftaler og registrere biler til udlevering.
+            </p>
+
+
+            <div style="display: flex; gap: 1.5rem; margin-bottom: 3rem;">
+
+                <a th:href="@{/car-registration-overview}" class="dashboard-btn dashboard-btn-navy">
+                    Bil Registrering
+                    <span>Biler klar til udlevering</span>
+                </a>
+
+                <a th:href="@{/rental-overview}" class="dashboard-btn dashboard-btn-purple">
+                    Ny Lejeaftale
+                    <span>Opret ny lejeaftale</span>
+                </a>
+
+            </div>
+
+
+            <div style="display: flex; justify-content: center; margin-top: 4rem; opacity: 0.15;">
+                <img th:src="@{/logo.png}" alt="Bilabonnement" style="width: 400px;">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

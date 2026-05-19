@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ny Lejeaftale</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<div class="app-layout">
+
+    <div class="sidebar">
+        <div class="sidebar-brand">Bil<span>abonnement</span></div>
+        <nav>
+            <a th:href="@{/}">Dashboard</a>
+            <a th:href="@{/car-registration-overview}">Bil Registrering</a>
+            <a th:href="@{/rental-overview}" class="active">Ny Lejeaftale</a>
+        </nav>
+        <div class="sidebar-footer">
+            <span th:text="${session.employee.name}">Navn</span><br>
+            <a th:href="@{/logout}">Log ud</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="topbar">
+            <span class="page-title">Ny lejeaftale</span>
+            <span class="topbar-user">Dataregistrering</span>
+            <span class="topbar-user">
+                Logget ind som: <strong th:text="${session.employee.name}">Navn</strong>
+            </span>
+        </div>
+
+        <div class="page-content">
+
+            <div class="alert-danger" th:if="${errorCustomerForm}">
+                Fejl i kunde oprettelse
+            </div>
+
+            <div class="alert-danger" th:if="${errorAgreementForm}">
+                Fejl i aftale oprettelse
+            </div>
+
+            <div class="alert-success" th:if="${successMessage}">
+                Lejeaftale oprettet!
+            </div>
+
+            <form th:action="@{/rental-agreement-save}" method="post"
+                  style="background:white; border-radius:12px; padding:2rem; max-width:600px;">
+
+                <div class="form-group">
+                    <label>Vælg bil</label>
+                    <select name="carId" required>
+                        <option value="">— Vælg bil —</option>
+                        <option th:each="car : ${availableCars}"
+                                th:value="${car.carId}"
+                                th:text="${car.maker + ' ' + car.model + ' – ' + car.stelnumber}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Startdato</label>
+                    <input type="date" name="startDate" required/>
+                </div>
+
+                <div class="form-group">
+                    <label>Slutdato</label>
+                    <input type="date" name="endDate" required/>
+                </div>
+
+                <div class="form-group">
+                    <label>Abonnementstype</label>
+                    <select name="subscriptionType" required>
+                        <option value="">— Vælg type —</option>
+                        <option value="LIMITED">Limited (5 måneder)</option>
+                        <option value="UNLIMITED">Unlimited (3–36 måneder)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Abonnements pris</label>
+                    <input type="number" name="monthlyPrice" required/>
+                </div>
+                <div class="form-group">
+                    <label>Afhentningssted</label>
+                    <select name="location" required>
+                        <option value="">— Vælg sted —</option>
+                        <option value="HQ">Bilabonnement</option>
+                        <option value="DS_DEALER">DS Salon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Kundenavn</label>
+                    <input type="text" name="name" required/>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefon</label>
+                    <input type="text" name="phone" required/>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required/>
+                </div>
+
+                <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+                    <a th:href="@{/rental-overview}" class="btn btn-secondary">Annuller</a>
+                    <button type="submit" class="btn btn-primary" style="width:auto;">Gem lejeaftale</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

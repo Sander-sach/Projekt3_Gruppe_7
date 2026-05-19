@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilabonnement — Bil Registrering</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<div class="app-layout">
+
+    <div class="sidebar">
+        <div class="sidebar-brand">Bil<span>abonnement</span></div>
+        <nav>
+            <a th:href="@{/data-registration}">Dashboard</a>
+            <a th:href="@{/car-registration-overview}" class="active">Bil Registrering</a>
+            <a th:href="@{/rental-overview}">Ny Lejeaftale</a>
+        </nav>
+        <div class="sidebar-footer">
+            <span th:text="${session.employee.name}">Navn</span><br>
+            <a th:href="@{/logout}">Log ud</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="topbar">
+            <span class="page-title">Registreringstjekliste</span>
+            <span class="topbar-user">
+                Logget ind som: <strong th:text="${session.employee.name}">Navn</strong>
+            </span>
+        </div>
+
+        <div class="page-content">
+            <div class="alert-danger" th:if="${errorRegistrationForm}">
+                Fejl registreringsform
+            </div>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <span class="card-title">Bilinformation</span>
+                </div>
+                <div class="info-grid">
+                    <div>
+                        <p class="info-label">Mærke</p>
+                        <p class="info-value" th:text="${car.maker}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Model</p>
+                        <p class="info-value" th:text="${car.model}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Farve</p>
+                        <p class="info-value" th:text="${car.color}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Stelnummer</p>
+                        <p class="info-value" th:text="${car.stelnumber}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Årgang</p>
+                        <p class="info-value" th:text="${car.year}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <span class="card-title">Lejeaftale</span>
+                </div>
+                <div class="info-grid">
+                    <div>
+                        <p class="info-label">Aftale ID</p>
+                        <p class="info-value" th:text="${rentalAgreement.rentalAgreementId}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Startdato</p>
+                        <p class="info-value" th:text="${rentalAgreement.startDate}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Abonnementstype</p>
+                        <p class="info-value" th:text="${rentalAgreement.subscriptionType}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Slutdato</p>
+                        <p class="info-value" th:text="${rentalAgreement.endDate}"></p>
+                    </div>
+                    <div>
+                        <p class="info-label">Leveringssted</p>
+                        <p class="info-value" th:text="${rentalAgreement.location}"></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Udfyld tjekliste</span>
+                </div>
+
+                <form th:action="@{/car-registration-new}" th:object="${carRegistration}" method="post">
+
+                    <input type="hidden" name="rentalAgreementId" th:value="${rentalAgreement.rentalAgreementId}"/>
+
+                    <div class="form-group">
+                        <label>Leasingkode</label>
+                        <input type="text" class="form-control" th:field="*{leasingCode}" placeholder="Indtast leasingkode" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>IRK-kode</label>
+                        <input type="text" class="form-control" th:field="*{IRKCode}" placeholder="Indtast IRK-kode" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nummerplade</label>
+                        <input type="text" class="form-control" th:field="*{plateNumber}" placeholder="Fx AB12345" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Godkend og gem registrering</button>
+                    </div>
+
+                </form>
+
+                <div style="margin-top: 1rem;">
+                    <a th:href="@{/car-registration-overview}" class="text-muted">← Tilbage til oversigt</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
