@@ -8,6 +8,6 @@ class Projekt3Gruppe7ApplicationTests {
 
     @Test
     void contextLoads() {
-    }
 
+    }
 }
