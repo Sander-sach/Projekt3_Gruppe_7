@@ -15,6 +15,7 @@ public class CarController {
     public CarController (CarService carService) {
         this.carService = carService;
     }
+    // Viser lageroverblik over alle biler opdelt efter status
     @GetMapping("/cars/storage")
     public String carStorage(Model model){
         model.addAttribute("rented",carService.getRented());
@@ -24,11 +25,13 @@ public class CarController {
         model.addAttribute("underRepair",carService.getUnderRepair());
         return "cars-storage";
     }
+    // Viser oversigt over udlejede biler
     @GetMapping("/cars/rented")
     public String carsRented(Model model){
         model.addAttribute("rented",carService.getRented());
         return "cars-rented";
     }
+    // Viser generelt biloverblik
     @GetMapping("/cars/overview")
     public String carsOverview(Model model){
         model.addAttribute("rented",carService.getRented());
