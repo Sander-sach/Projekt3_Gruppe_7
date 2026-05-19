@@ -75,7 +75,7 @@ public class CarRegistrationController {
 
     // Gemmer den udfyldte tjekliste og opdaterer bilens status
     @PostMapping("/car-registration-new")
-    public String saveCarRegistration(@ModelAttribute CarRegistration carRegistration, Model model)  {
+    public String saveCarRegistration(@ModelAttribute CarRegistration carRegistration)  {
         if(!carRegistrationService.complete(carRegistration)){
             return "redirect:/car-registration-new/" + carRegistration.getRentalAgreementId() + "?error=true";
         }
