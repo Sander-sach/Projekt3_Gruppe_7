@@ -159,4 +159,39 @@ public class CarRepositoryImpl implements CarRepository {
         }
         return null;
     }
-}
+
+    // Hent alle udlejede biler
+    public List<Car> findAllRented() {
+        List<Car> list = new ArrayList<>();
+        String sql = "SELECT * FROM car WHERE status = 'RENTED'";
+
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Hent samlet månedlig pris på alle udlejede biler
+    public double getTotalRentedPrice() {
+        String sql = "SELECT SUM(ra.monthly_price) FROM rental_agreement ra " +
+                "JOIN car c ON ra.car_id = c.car_id " +
+                "WHERE c.status = 'RENTED'";
+
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+    }

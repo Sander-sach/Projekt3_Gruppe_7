@@ -11,4 +11,6 @@ public interface CarRepository extends BaseRepository<Car> {
     void delete(Long id);
     Car findByRentalAgreementId(Long rentalAgreementId);
     Car findByStelNumber(String stelNumber);
+    List<Car> findAllRented();
+    double getTotalRentedPrice();
 }
