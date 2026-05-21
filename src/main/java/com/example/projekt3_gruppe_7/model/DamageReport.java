@@ -3,12 +3,12 @@ package com.example.projekt3_gruppe_7.model;
 import java.time.LocalDate;
 
 public class DamageReport {
-    private Long DamageReportId;
+    private Long damageReportId;
     private Long carId;
     private LocalDate reportDate;
     //fuld constructer
     public DamageReport(Long damageReportId, Long carId, LocalDate reportDate) {
-        DamageReportId = damageReportId;
+        damageReportId = damageReportId;
         this.carId = carId;
         this.reportDate = reportDate;
     }
@@ -19,7 +19,7 @@ public class DamageReport {
     }
 
     public Long getDamageReportId() {
-        return DamageReportId;
+        return damageReportId;
     }
 
     public Long getCarId() {
@@ -31,7 +31,7 @@ public class DamageReport {
     }
 
     public void setDamageReportId(Long damageReportId) {
-        DamageReportId = damageReportId;
+        damageReportId = damageReportId;
     }
 
     public void setCarId(Long carId) {

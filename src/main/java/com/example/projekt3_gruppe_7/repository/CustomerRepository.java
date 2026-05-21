@@ -28,4 +28,6 @@ public interface CustomerRepository extends BaseRepository<Customer>{
 
     Customer findByPhone(String phone);
 
+    Customer findCustomerByReportId(Long reportId);
+
 }

@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository{
@@ -54,7 +56,6 @@ public class CustomerRepositoryImpl implements CustomerRepository{
     }
     public Customer findByPhone(String phone){
         String sql = "SELECT * FROM customer WHERE phone = ?";
-
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, phone);
@@ -69,6 +70,7 @@ public class CustomerRepositoryImpl implements CustomerRepository{
         }
         return null;
     }
+
     private Customer mapRow(ResultSet resultSet) throws SQLException {
         Customer customer = new Customer();
         customer.setCustomerId(resultSet.getLong("customer_id"));
@@ -77,5 +79,22 @@ public class CustomerRepositoryImpl implements CustomerRepository{
         customer.setEmail(resultSet.getString("email"));
 
         return customer;
+    }
+    public Customer findCustomerByReportId(Long reportId){
+        String sql = "SELECT c.* FROM customer c JOIN rental_agreement ra ON ra.customer_id = c.customer_id \n"+
+                "JOIN damage_report dr ON dr.report_id = ra.report_id WHERE dr.report_id = ?";
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, reportId);
+
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                     return mapRow(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
